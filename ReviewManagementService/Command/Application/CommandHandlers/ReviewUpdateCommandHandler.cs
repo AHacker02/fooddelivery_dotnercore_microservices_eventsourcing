@@ -6,6 +6,7 @@ using OMF.ReviewManagementService.Command.Application.Repositories;
 using ServiceBus.Abstractions;
 using System;
 using System.Threading.Tasks;
+using OMF.Common.Events;
 
 namespace OMF.ReviewManagementService.Command.Application.CommandHandlers
 {
@@ -28,11 +29,11 @@ namespace OMF.ReviewManagementService.Command.Application.CommandHandlers
                 var review = _map.Map<Review>(command);
                 await _reviewRepository.UpsertReview(review);
 
-                await _bus.PublishEvent(new ReviewCreated(command.RestaurantId));
+                await _bus.PublishEvent(new ReviewCreatedEvent(command.RestaurantId,command.Id));
             }
             catch (Exception ex)
             {
-                await _bus.PublishEvent(new ReviewEventFailed($"Message: {ex.Message} Stacktrace: {ex.StackTrace}", "system_exception", command.Id));
+                await _bus.PublishEvent(new ExceptionEvent("system_exception", $"Message: {ex.Message} Stacktrace: {ex.StackTrace}", command));
             }
         }
     }

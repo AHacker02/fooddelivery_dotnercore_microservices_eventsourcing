@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace OMF.ReviewManagementService.Command.Application.EventHandlers
 {
-    public class UpdateRatingEventHandler : IEventHandler<ReviewCreated>
+    public class UpdateRatingEventHandler : IEventHandler<ReviewCreatedEvent>
     {
         private readonly IReviewRepository _reviewRepository;
         private readonly IConfiguration _configuration;
@@ -26,15 +26,14 @@ namespace OMF.ReviewManagementService.Command.Application.EventHandlers
             _configuration = configuration;
             _bus = bus;
         }
-        public async Task HandleAsync(ReviewCreated @event)
+        public async Task HandleAsync(ReviewCreatedEvent @event)
         {
             try
             {
                 Restaurant restaurant = null;
                 using (var client = new HttpClient())
                 {
-                    //client.BaseAddress = new Uri(_configuration["RestaurantUrl"]);
-                    client.BaseAddress = new Uri("http://localhost:65399");
+                    client.BaseAddress = new Uri(_configuration["RestaurantUrl"]);
                     var eventUser = new User()
                     {
                         Id = Guid.NewGuid(),
@@ -55,15 +54,15 @@ namespace OMF.ReviewManagementService.Command.Application.EventHandlers
 
                 var newRating = (currentRating + restaurantReviews.Sum(x => x.Rating) / restaurantReviews.Count() + 1);
 
-                await _bus.PublishEvent(new UpdateRestaurant()
+                await _bus.PublishEvent(new UpdateRestaurantEvent(@event.Id)
                 {
-                    Id = @event.RestaurantId,
-                    Rating = $"{newRating}/5"
+                    RestaurantId = @event.RestaurantId,
+                    Rating = newRating.ToString()
                 });
             }
             catch (Exception ex)
             {
-                await _bus.PublishEvent(new ReviewEventFailed($"Message: {ex.Message} Stacktrace: {ex.StackTrace}", "system_exception", @event.EventId));
+                await _bus.PublishEvent(new ExceptionEvent("system_exception", $"Message: {ex.Message} Stacktrace: {ex.StackTrace}", @event));
             }
 
         }

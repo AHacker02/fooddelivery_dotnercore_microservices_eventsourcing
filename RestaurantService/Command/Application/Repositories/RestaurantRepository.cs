@@ -1,4 +1,5 @@
-﻿using DataAccess.Abstractions;
+﻿using System;
+using DataAccess.Abstractions;
 using DataAccess.MongoDb;
 using OMF.Common.Models;
 using System.Collections.Generic;
@@ -33,6 +34,11 @@ namespace OMF.RestaurantService.Command.Application.Repositories
 
             await _database.Delete<Restaurant>(x => x.Id == restaurant.Id);
             await _database.Add(restaurant);
+        }
+
+        public async Task UpdateRating(Guid restaurantId, string rating)
+        {
+
         }
     }
 }

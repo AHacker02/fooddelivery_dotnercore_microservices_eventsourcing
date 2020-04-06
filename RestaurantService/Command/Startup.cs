@@ -49,6 +49,7 @@ namespace OMF.RestaurantService.Command
             seeder.SeedRestaurants();
             var eventBus = container.Resolve<IEventBus>();
             eventBus.SubscribeEvent<OrderConfirmedEvent>();
+            eventBus.SubscribeEvent<UpdateRestaurantEvent>();
         }
     }
 }

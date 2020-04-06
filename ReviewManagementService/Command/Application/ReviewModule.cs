@@ -13,7 +13,7 @@ namespace OMF.ReviewManagementService.Command.Application
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<ReviewRepository>().As<IReviewRepository>();
-            builder.RegisterType<UpdateRatingEventHandler>().As<IEventHandler<ReviewCreated>>();
+            builder.RegisterType<UpdateRatingEventHandler>().As<IEventHandler<ReviewCreatedEvent>>();
             builder.RegisterType<ReviewUpdateCommandHandler>().As<ICommandHandler<ReviewCommand>>();
         }
     }

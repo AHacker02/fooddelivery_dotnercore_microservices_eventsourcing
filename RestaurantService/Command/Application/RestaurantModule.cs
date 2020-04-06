@@ -12,6 +12,7 @@ namespace OMF.RestaurantService.Command.Application
         {
             builder.RegisterType<RestaurantRepository>().As<IRestaurantRepository>();
             builder.RegisterType<OrderConfirmedEventHandler>().As<IEventHandler<OrderConfirmedEvent>>();
+            builder.RegisterType<UpdateRestaurantEventHandler>().As<IEventHandler<UpdateRestaurantEvent>>();
             builder.RegisterType<Seed>();
         }
     }

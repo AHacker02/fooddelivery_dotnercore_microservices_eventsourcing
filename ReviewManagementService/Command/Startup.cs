@@ -46,7 +46,7 @@ namespace OMF.ReviewManagementService
             base.ConfigureApplication(app, env);
             var eventBus = container.Resolve<IEventBus>();
             eventBus.SubscribeCommand<ReviewCommand>();
-            eventBus.SubscribeEvent<ReviewCreated>();
+            eventBus.SubscribeEvent<ReviewCreatedEvent>();
         }
     }
 }
