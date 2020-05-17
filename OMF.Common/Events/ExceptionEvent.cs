@@ -10,6 +10,7 @@ namespace OMF.Common.Events
             Message = message;
             EventData = eventData;
         }
+
         public string Code { get; set; }
         public string Message { get; set; }
         public dynamic EventData { get; set; }

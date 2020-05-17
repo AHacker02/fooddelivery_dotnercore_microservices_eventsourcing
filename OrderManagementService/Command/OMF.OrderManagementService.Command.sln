@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.OrderManagementService.Command.Api", "OMF.OrderManagementService.Command,Api\OMF.OrderManagementService.Command.Api.csproj", "{05FF280B-9678-4BC7-9F6C-0A43929DC789}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseService", "..\..\Infrastructure\BaseService\BaseService.csproj", "{3948F27B-B745-4C19-A6F5-AB267BEEFC83}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "..\..\Infrastructure\DataAccess\DataAccess.csproj", "{086E8F07-0998-4D74-8466-1DC20F4ECC86}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceBus", "..\..\Infrastructure\ServiceBus\ServiceBus.csproj", "{542DEAD8-0118-4E7D-944F-1F2D6A9A47E8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.Common", "..\..\OMF.Common\OMF.Common.csproj", "{A3687C80-7DD1-4CE6-9C4A-EF543BE95979}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OMF.OrderManagementService.Command.Service", "OMF.OrderManagementService.Command.Service\OMF.OrderManagementService.Command.Service.csproj", "{B50B92A1-8DA4-40EB-AF06-85EB3BD89AB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OMF.OrderManagementService.Command.Repository", "OMF.OrderManagementService.Command.Repository\OMF.OrderManagementService.Command.Repository.csproj", "{9D4C7773-42C3-4CEC-9F96-32924C6B02D8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{05FF280B-9678-4BC7-9F6C-0A43929DC789}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05FF280B-9678-4BC7-9F6C-0A43929DC789}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05FF280B-9678-4BC7-9F6C-0A43929DC789}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05FF280B-9678-4BC7-9F6C-0A43929DC789}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B50B92A1-8DA4-40EB-AF06-85EB3BD89AB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B50B92A1-8DA4-40EB-AF06-85EB3BD89AB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B50B92A1-8DA4-40EB-AF06-85EB3BD89AB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B50B92A1-8DA4-40EB-AF06-85EB3BD89AB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D4C7773-42C3-4CEC-9F96-32924C6B02D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D4C7773-42C3-4CEC-9F96-32924C6B02D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D4C7773-42C3-4CEC-9F96-32924C6B02D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D4C7773-42C3-4CEC-9F96-32924C6B02D8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8BC901B7-1E7B-43D9-BBB5-AF193A8DCD39}
+	EndGlobalSection
+EndGlobal

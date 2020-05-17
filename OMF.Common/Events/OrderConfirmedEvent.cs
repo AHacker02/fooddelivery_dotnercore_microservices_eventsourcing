@@ -1,7 +1,7 @@
-﻿using OMF.Common.Models;
-using ServiceBus.Abstractions;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using OMF.Common.Models;
+using ServiceBus.Abstractions;
 
 namespace OMF.Common.Events
 {
@@ -13,6 +13,7 @@ namespace OMF.Common.Events
             OrderItems = orderItems;
             Address = address;
         }
+
         public Guid RestaurantId { get; set; }
         public List<Item> OrderItems { get; set; }
         public string Address { get; set; }

@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.ReviewManagementService.Command.Api", "OMF.ReviewManagementService.Command.Api\OMF.ReviewManagementService.Command.Api.csproj", "{935BF78D-0F4C-43B0-917A-D4F0B99C18B8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseService", "..\..\Infrastructure\BaseService\BaseService.csproj", "{3948F27B-B745-4C19-A6F5-AB267BEEFC83}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "..\..\Infrastructure\DataAccess\DataAccess.csproj", "{086E8F07-0998-4D74-8466-1DC20F4ECC86}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceBus", "..\..\Infrastructure\ServiceBus\ServiceBus.csproj", "{542DEAD8-0118-4E7D-944F-1F2D6A9A47E8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.Common", "..\..\OMF.Common\OMF.Common.csproj", "{A3687C80-7DD1-4CE6-9C4A-EF543BE95979}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OMF.ReviewManagementService.Command.Service", "OMF.ReviewManagementService.Command.Service\OMF.ReviewManagementService.Command.Service.csproj", "{FA2F6B3F-CAD6-4421-A142-6D2E9047E271}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OMF.ReviewManagementService.Command.Repository", "OMF.ReviewManagementService.Command.Repository\OMF.ReviewManagementService.Command.Repository.csproj", "{1ADE478F-77C4-4CEB-BF3D-FCB5A0D2AB71}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{935BF78D-0F4C-43B0-917A-D4F0B99C18B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{935BF78D-0F4C-43B0-917A-D4F0B99C18B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{935BF78D-0F4C-43B0-917A-D4F0B99C18B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{935BF78D-0F4C-43B0-917A-D4F0B99C18B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA2F6B3F-CAD6-4421-A142-6D2E9047E271}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA2F6B3F-CAD6-4421-A142-6D2E9047E271}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA2F6B3F-CAD6-4421-A142-6D2E9047E271}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA2F6B3F-CAD6-4421-A142-6D2E9047E271}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1ADE478F-77C4-4CEB-BF3D-FCB5A0D2AB71}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1ADE478F-77C4-4CEB-BF3D-FCB5A0D2AB71}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1ADE478F-77C4-4CEB-BF3D-FCB5A0D2AB71}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1ADE478F-77C4-4CEB-BF3D-FCB5A0D2AB71}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7FF65AAF-A40B-4DA8-8B7F-799493CA1D16}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="EventHandlers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\OMF.Common\OMF.Common.csproj" />
+    <ProjectReference Include="..\OMF.CustomerManagementService.Command.Repository\OMF.CustomerManagementService.Command.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

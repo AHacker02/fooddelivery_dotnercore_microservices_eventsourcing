@@ -1,5 +1,5 @@
-﻿using ServiceBus.Abstractions;
-using System;
+﻿using System;
+using ServiceBus.Abstractions;
 
 namespace OMF.Common.Events
 {
@@ -10,6 +10,7 @@ namespace OMF.Common.Events
             FromAddress = fromAddress;
             ToAddress = address;
         }
+
         public string FromAddress { get; set; }
         public string ToAddress { get; set; }
     }

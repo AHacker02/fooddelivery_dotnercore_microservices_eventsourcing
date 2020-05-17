@@ -1,13 +1,12 @@
-﻿using ServiceBus.Abstractions;
-using System;
+﻿using System;
+using ServiceBus.Abstractions;
 
 namespace OMF.Common.Events
 {
     public class UpdateRestaurantEvent : Event
     {
-        public UpdateRestaurantEvent(Guid id):base(id)
+        public UpdateRestaurantEvent(Guid id) : base(id)
         {
-            
         }
 
         public Guid RestaurantId { get; set; }

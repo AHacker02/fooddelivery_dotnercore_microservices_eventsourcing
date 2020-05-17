@@ -1,15 +1,14 @@
-﻿using Microsoft.IdentityModel.Tokens;
-using OMF.Common.Models;
-using System;
+﻿using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using OMF.Common.Models;
 
 namespace OMF.Common.Helpers
 {
     public static class Extensions
     {
-
         public static string GenerateJwtToken(this User user, string tokenSecret)
         {
             var claims = new[]
@@ -22,7 +21,7 @@ namespace OMF.Common.Helpers
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
-            var tokenDescriptor = new SecurityTokenDescriptor()
+            var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.Now.AddDays(1),

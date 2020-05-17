@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\arghy\AppData\Local\JetBrains\Rider2020.1\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\arghy\AppData\Local\JetBrains\Rider2020.1\resharper-host\Local\Transient\ReSharperHost\v201\SolutionCaches\_.19.00" t="ExcludeRecursive" />
+    <e p="D:\Projects\dotnet\fooddelivery_dotnercore_microservices_eventsourcing\OrderManagementService\Command\OMF.OrderManagementService.Command,Api" t="IncludeRecursive">
+      <e p="Application" t="Include">
+        <e p="CommandHandlers" t="Include">
+          <e p="CancelOrderCommandHandler.cs" t="Include" />
+          <e p="OrderCommandHandler.cs" t="Include" />
+        </e>
+        <e p="Commands" t="Include">
+          <e p="CancelOrderCommand.cs" t="Include" />
+          <e p="OrderCommand.cs" t="Include" />
+        </e>
+        <e p="EventHandlers" t="Include">
+          <e p="DeliveryEventHandler.cs" t="Include" />
+          <e p="PaymentEventHandler.cs" t="Include" />
+        </e>
+        <e p="Events" t="Include">
+          <e p="OrderPlaced.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include" />
+        <e p="OrderModule.cs" t="Include" />
+        <e p="OrderProfile.cs" t="Include" />
+        <e p="Repositories" t="Include">
+          <e p="IOrderRepository.cs" t="Include" />
+          <e p="OrderRepository.cs" t="Include" />
+        </e>
+      </e>
+      <e p="appsettings.Development.json" t="Include" />
+      <e p="appsettings.json" t="Include" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="Controllers" t="Include">
+        <e p="OrderController.cs" t="Include" />
+      </e>
+      <e p="Dockerfile" t="Include" />
+      <e p="obj" t="ExcludeRecursive">
+        <e p="Debug" t="Include">
+          <e p="netcoreapp3.1" t="Include">
+            <e p="OMF.OrderManagementService.Command.AssemblyInfo.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="OMF.OrderManagementService.Command.csproj" t="IncludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Program.cs" t="Include" />
+      <e p="Properties" t="Include">
+        <e p="launchSettings.json" t="Include" />
+      </e>
+      <e p="Startup.cs" t="Include" />
+    </e>
+  </component>
+</project>
