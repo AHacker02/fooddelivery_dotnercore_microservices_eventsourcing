@@ -15,9 +15,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Infrastructure\BaseService\BaseService.csproj" />
-    <ProjectReference Include="..\..\..\Infrastructure\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\ServiceBus\ServiceBus.csproj" />
     <ProjectReference Include="..\..\..\OMF.Common\OMF.Common.csproj" />
+    <ProjectReference Include="..\OMF.RestaurantService.Query.Repository\OMF.RestaurantService.Query.Repository.csproj" />
     <ProjectReference Include="..\OMF.RestaurantService.Query.Service\OMF.RestaurantService.Query.Service.csproj" />
   </ItemGroup>
 
@@ -26,8 +26,11 @@
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="AutoMapper" Version="9.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.4" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.1" />
   </ItemGroup>
 
 

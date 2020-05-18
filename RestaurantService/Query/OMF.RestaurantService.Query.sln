@@ -7,13 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.RestaurantService.Query
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseService", "..\..\Infrastructure\BaseService\BaseService.csproj", "{3948F27B-B745-4C19-A6F5-AB267BEEFC83}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "..\..\Infrastructure\DataAccess\DataAccess.csproj", "{086E8F07-0998-4D74-8466-1DC20F4ECC86}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.Common", "..\..\OMF.Common\OMF.Common.csproj", "{A3687C80-7DD1-4CE6-9C4A-EF543BE95979}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OMF.RestaurantService.Query.Service", "OMF.RestaurantService.Query.Service\OMF.RestaurantService.Query.Service.csproj", "{CF27BB0C-A2DD-4F6F-B053-343033F0D77F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.RestaurantService.Query.Service", "OMF.RestaurantService.Query.Service\OMF.RestaurantService.Query.Service.csproj", "{CF27BB0C-A2DD-4F6F-B053-343033F0D77F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OMF.RestaurantService.Query.Repository", "OMF.RestaurantService.Query.Repository\OMF.RestaurantService.Query.Repository.csproj", "{C72D3332-12AD-4076-95F1-1372DB4A8297}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.RestaurantService.Query.Repository", "OMF.RestaurantService.Query.Repository\OMF.RestaurantService.Query.Repository.csproj", "{C72D3332-12AD-4076-95F1-1372DB4A8297}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +23,14 @@ Global
 		{BA694E32-AC45-47EC-ABC0-149E066406D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA694E32-AC45-47EC-ABC0-149E066406D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA694E32-AC45-47EC-ABC0-149E066406D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3948F27B-B745-4C19-A6F5-AB267BEEFC83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3948F27B-B745-4C19-A6F5-AB267BEEFC83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3948F27B-B745-4C19-A6F5-AB267BEEFC83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3948F27B-B745-4C19-A6F5-AB267BEEFC83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3687C80-7DD1-4CE6-9C4A-EF543BE95979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3687C80-7DD1-4CE6-9C4A-EF543BE95979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3687C80-7DD1-4CE6-9C4A-EF543BE95979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3687C80-7DD1-4CE6-9C4A-EF543BE95979}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CF27BB0C-A2DD-4F6F-B053-343033F0D77F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CF27BB0C-A2DD-4F6F-B053-343033F0D77F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CF27BB0C-A2DD-4F6F-B053-343033F0D77F}.Release|Any CPU.ActiveCfg = Release|Any CPU

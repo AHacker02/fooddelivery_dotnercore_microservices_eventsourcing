@@ -32,5 +32,7 @@ namespace OMF.Common.Helpers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
+        
     }
 }

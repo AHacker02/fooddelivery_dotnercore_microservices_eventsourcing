@@ -1,12 +1,13 @@
 using Autofac;
 using BaseService;
-using DataAccess.MongoDb;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using OMF.RestaurantService.Query.Application;
+using Microsoft.EntityFrameworkCore;
+using OMF.RestaurantService.Query.Repository.DataContext;
 
 namespace OMF.RestaurantService.Query
 {
@@ -18,6 +19,8 @@ namespace OMF.RestaurantService.Query
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<RestaurantManagementContext>(options =>
+                options.UseSqlServer(Configuration.GetSection("ConnectionString").Value));
             ConfigureApplicationServices(services, new OpenApiInfo
             {
                 Version = "v1",
@@ -28,7 +31,6 @@ namespace OMF.RestaurantService.Query
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterModule(new MongoDbModule(Configuration));
             builder.RegisterModule(new RestaurantModule());
         }
 
