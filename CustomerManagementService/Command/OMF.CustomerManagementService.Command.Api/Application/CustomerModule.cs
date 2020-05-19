@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using OMF.CustomerManagementService.Command.Repository;
 using OMF.CustomerManagementService.Command.Repository.Abstractions;
+using OMF.CustomerManagementService.Command.Repository.DataContext;
 using OMF.CustomerManagementService.Command.Service.Command;
 using OMF.CustomerManagementService.Command.Service.CommandHandlers;
 using ServiceBus.Abstractions;

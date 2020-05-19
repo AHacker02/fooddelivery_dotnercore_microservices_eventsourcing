@@ -8,17 +8,17 @@ namespace OMF.CustomerManagementService.Command.Api.Application
     {
         public CustomerProfile()
         {
-            CreateMap<CreateUserCommand, User>()
-                .ForMember(m => m.CreatedAt, opt => opt.MapFrom(o => o.TimeStamp))
-                .ForMember(m => m.Password, opt => opt.Ignore())
-                .ForMember(m => m.PasswordSalt, opt => opt.Ignore())
-                .ReverseMap();
-
-            CreateMap<DeleteUserCommand, User>()
-                .ForMember(m => m.CreatedAt, opt => opt.MapFrom(o => o.TimeStamp))
-                .ForMember(m => m.Password, opt => opt.Ignore())
-                .ForMember(m => m.PasswordSalt, opt => opt.Ignore())
-                .ReverseMap();
+            // CreateMap<CreateUserCommand, User>()
+            //     .ForMember(m => m.CreatedAt, opt => opt.MapFrom(o => o.TimeStamp))
+            //     .ForMember(m => m.Password, opt => opt.Ignore())
+            //     .ForMember(m => m.PasswordSalt, opt => opt.Ignore())
+            //     .ReverseMap();
+            //
+            // CreateMap<DeleteUserCommand, User>()
+            //     .ForMember(m => m.CreatedAt, opt => opt.MapFrom(o => o.TimeStamp))
+            //     .ForMember(m => m.Password, opt => opt.Ignore())
+            //     .ForMember(m => m.PasswordSalt, opt => opt.Ignore())
+            //     .ReverseMap();
 
         }
     }

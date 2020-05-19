@@ -1,46 +1,49 @@
-﻿using DataAccess.Abstractions;
-using OMF.Common.Models;
+﻿using OMF.Common.Models;
 using OMF.CustomerManagementService.Command.Repository.Abstractions;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using OMF.CustomerManagementService.Command.Repository.DataContext;
 
 namespace OMF.CustomerManagementService.Command.Repository
 {
     public class AuthRepository : IAuthRepository
     {
-        private INoSqlDataAccess _database;
-        public AuthRepository(INoSqlDataAccess database)
+        private CustomerManagementContext _database;
+        private readonly IMapper _map;
+
+        public AuthRepository(CustomerManagementContext database,IMapper map)
         {
             _database = database;
+            _map = map;
         }
         public async Task<User> Register(User user, string password)
         {
-            byte[] passwordHash, passwordSalt;
-            CreatePasswordHash(password, out passwordHash, out passwordSalt);
+            CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
 
             user.Password = passwordHash;
-            user.PasswordSalt = passwordSalt;
+            user.PasswordKey = passwordSalt;
 
-            await _database.Add<User>(user);
-
-            return user;
+            await _database.TblCustomer.AddAsync(_map.Map<TblCustomer>(user));
+            return await _database.SaveChangesAsync() > 0 ? user : null;
         }
 
         public async Task<bool> UserExists(string email)
-        {
-            return (await _database.All<User>()).Any(x => x.Email.Equals(email));
-        }
+            =>  await _database.TblCustomer.AnyAsync(x => x.Email.Equals(email));
+        
 
         public async Task DeleteUser(User userToDelete, string password)
         {
-            var user = (await _database.All<User>()).FirstOrDefault(x => x.Email.Equals(userToDelete.Email));
-            if (!VerifyPasswordHash(password, user.Password, user.PasswordSalt))
+            var user = await _database.TblCustomer.FirstOrDefaultAsync(x => x.Email.Equals(userToDelete.Email));
+            if (!VerifyPasswordHash(password, user.Password, user.PasswordKey))
             {
-                throw new InvalidOperationException("The paswrod entered is incorrect");
+                throw new InvalidOperationException("The password entered is incorrect");
             }
 
-            await _database.Delete<User>(x => x.Email == userToDelete.Email);
+            _database.Remove(user);
+            await _database.SaveChangesAsync();
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)

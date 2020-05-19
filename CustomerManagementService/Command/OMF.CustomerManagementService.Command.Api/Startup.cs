@@ -1,12 +1,13 @@
 using Autofac;
 using BaseService;
-using DataAccess.MongoDb;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using OMF.CustomerManagementService.Command.Api.Application;
+using OMF.CustomerManagementService.Command.Repository.DataContext;
 using OMF.CustomerManagementService.Command.Service.Command;
 using ServiceBus.Abstractions;
 using ServiceBus.RabbitMq;
@@ -22,6 +23,8 @@ namespace OMF.CustomerManagementService.Command.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<CustomerManagementContext>(options =>
+                options.UseSqlServer(Configuration.GetSection("ConnectionString").Value));
             services.AddRabbitMq(Configuration);
             base.ConfigureApplicationServices(services, new OpenApiInfo
             {
@@ -34,7 +37,6 @@ namespace OMF.CustomerManagementService.Command.Api
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterModule(new MongoDbModule(Configuration));
             builder.RegisterModule(new CustomerModule(Configuration));
         }
 

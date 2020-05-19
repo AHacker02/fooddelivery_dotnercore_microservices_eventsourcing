@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace OMF.Common.Models
+namespace OMF.CustomerManagementService.Command.Repository.DataContext
 {
-    public class User
+    public partial class TblCustomer
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -15,5 +15,7 @@ namespace OMF.Common.Models
         public string Address { get; set; }
         public bool Active { get; set; }
         public int Id { get; set; }
+        public DateTime RecordTimeStamp { get; set; }
+        public DateTime RecordTimeStampCreated { get; set; }
     }
 }
