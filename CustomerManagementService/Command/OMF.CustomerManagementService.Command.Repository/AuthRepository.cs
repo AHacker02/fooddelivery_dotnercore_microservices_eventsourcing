@@ -1,74 +1,103 @@
-﻿using OMF.Common.Models;
-using OMF.CustomerManagementService.Command.Repository.Abstractions;
-using System;
+﻿using System;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using OMF.Common.Helpers;
+using OMF.CustomerManagementService.Command.Repository.Abstractions;
 using OMF.CustomerManagementService.Command.Repository.DataContext;
 
 namespace OMF.CustomerManagementService.Command.Repository
 {
     public class AuthRepository : IAuthRepository
     {
-        private CustomerManagementContext _database;
         private readonly IMapper _map;
+        private readonly CustomerManagementContext _database;
 
-        public AuthRepository(CustomerManagementContext database,IMapper map)
+        public AuthRepository(CustomerManagementContext database, IMapper map)
         {
             _database = database;
             _map = map;
         }
-        public async Task<User> Register(User user, string password)
+
+        public async Task<TblCustomer> Register(TblCustomer user, string password)
         {
+            var dbuser = _database.TblCustomer.FirstOrDefault(x => x.Email.Equals(user.Email));
+            if (dbuser != null) return await ReactivateUser(dbuser, password);
+
             CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
 
             user.Password = passwordHash;
             user.PasswordKey = passwordSalt;
-
-            await _database.TblCustomer.AddAsync(_map.Map<TblCustomer>(user));
+            user.CreatedDate = DateTime.UtcNow;
+            user.Active = true;
+            await _database.TblCustomer.AddAsync(user);
             return await _database.SaveChangesAsync() > 0 ? user : null;
         }
 
         public async Task<bool> UserExists(string email)
-            =>  await _database.TblCustomer.AnyAsync(x => x.Email.Equals(email));
-        
-
-        public async Task DeleteUser(User userToDelete, string password)
         {
-            var user = await _database.TblCustomer.FirstOrDefaultAsync(x => x.Email.Equals(userToDelete.Email));
+            return await _database.TblCustomer.AnyAsync(x => x.Email.Equals(email) && x.Active);
+        }
+
+        public async Task DeleteUser(TblCustomer userToDelete, string password)
+        {
+            var user = _database.TblCustomer.FirstOrDefault(x => x.Email.Equals(userToDelete.Email));
             if (!VerifyPasswordHash(password, user.Password, user.PasswordKey))
-            {
                 throw new InvalidOperationException("The password entered is incorrect");
+
+            user.Active = false;
+            await _database.SaveChangesAsync();
+        }
+
+        public async Task UpdateUser(TblCustomer updatedUser, string password)
+        {
+            if (!string.IsNullOrEmpty(password))
+            {
+                CreatePasswordHash(password, out var passwordHash, out var passwordSalt);
+                updatedUser.Password = passwordHash;
+                updatedUser.PasswordKey = passwordSalt;
             }
 
-            _database.Remove(user);
+            var user = _database.TblCustomer.FirstOrDefault(x => x.Email.Equals(updatedUser.Email));
+            updatedUser.CreatedDate = user.CreatedDate;
+            updatedUser.Id = user.Id;
+            user.Copy(updatedUser);
             await _database.SaveChangesAsync();
+        }
+
+        private async Task<TblCustomer> ReactivateUser(TblCustomer user, string password)
+        {
+            if (!VerifyPasswordHash(password, user.Password, user.PasswordKey))
+                throw new InvalidOperationException("The password entered is incorrect");
+
+            user.Active = true;
+            user.ModifiedDate = DateTime.UtcNow;
+            return await _database.SaveChangesAsync() > 0 ? user : null;
         }
 
         private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512())
+            using (var hmac = new HMACSHA512())
             {
                 passwordSalt = hmac.Key;
-                passwordHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             }
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
-            using (var hmac = new System.Security.Cryptography.HMACSHA512(passwordSalt))
+            using (var hmac = new HMACSHA512(passwordSalt))
             {
-                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
-                for (int i = 0; i < computedHash.Length; i++)
-                {
+                var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+                for (var i = 0; i < computedHash.Length; i++)
                     if (computedHash[i] != passwordHash[i])
                         return false;
-                }
             }
 
             return true;
         }
-
     }
 }

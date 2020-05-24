@@ -7,6 +7,6 @@ namespace OMF.ReviewManagementService.Query.Repository.Abstractions
 {
     public interface IReviewRepository
     {
-        Task<IEnumerable<Review>> GetRestaurantReviews(Guid restaurantId);
+        Task<IEnumerable<Rating>> GetRestaurantReviews(int restaurantId);
     }
 }

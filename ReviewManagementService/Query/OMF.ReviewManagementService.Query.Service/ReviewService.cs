@@ -16,7 +16,7 @@ namespace OMF.ReviewManagementService.Query.Service
             _reviewRepository = reviewRepository;
         }
 
-        public async Task<IEnumerable<Review>> GetRestaurantReviews(Guid restaurantId)
+        public async Task<IEnumerable<Rating>> GetRestaurantReviews(int restaurantId)
             => await _reviewRepository.GetRestaurantReviews(restaurantId);
     }
 }

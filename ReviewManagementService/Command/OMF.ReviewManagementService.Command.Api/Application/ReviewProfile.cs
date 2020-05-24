@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using OMF.Common.Models;
+using OMF.ReviewManagementService.Command.Repository.DataContext;
 using OMF.ReviewManagementService.Command.Service.Command;
 
 namespace OMF.ReviewManagementService.Command.Application
@@ -8,9 +8,10 @@ namespace OMF.ReviewManagementService.Command.Application
     {
         public ReviewProfile()
         {
-            CreateMap<ReviewCommand, Review>()
-                .ForMember(x => x.Id,
-                    opt => opt.Ignore()).ReverseMap();
+            CreateMap<ReviewCommand,TblRating>()
+                .ForMember(x=>x.Id,opts=>opts.Ignore())
+                .ForMember(x=>x.TblCustomerId,opts=>opts.MapFrom(d=>d.CustomerId))
+                .ReverseMap();
         }
     }
 }

@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using OMF.Common.Models;
+using OMF.ReviewManagementService.Command.Repository.DataContext;
 
 namespace OMF.ReviewManagementService.Command.Repository.Abstractions
 {
     public interface IReviewRepository
     {
-        Task UpsertReview(Review review);
-        Task<IEnumerable<Review>> GetRestaurantReviews(Guid restaurantId);
+        Task UpsertReview(TblRating review);
+        Task<IEnumerable<TblRating>> GetRestaurantReviews(int restaurantId);
     }
 }

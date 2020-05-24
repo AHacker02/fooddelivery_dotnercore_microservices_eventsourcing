@@ -1,9 +1,12 @@
 ﻿using Autofac;
 using Microsoft.Extensions.Configuration;
-using OMF.CustomerManagementService.Query.Application.Repositories;
-using OMF.CustomerManagementService.Query.Application.Services;
+using OMF.CustomerManagementService.Query.Repository;
+using OMF.CustomerManagementService.Query.Repository.Abstractions;
+using OMF.CustomerManagementService.Query.Repository.DataContext;
+using OMF.CustomerManagementService.Query.Service;
+using OMF.CustomerManagementService.Query.Service.Abstractions;
 
-namespace OMF.CustomerManagementService.Query.Application
+namespace OMF.CustomerManagementService.Query.Api.Application
 {
     public class CustomerModule : Module
     {
@@ -17,6 +20,7 @@ namespace OMF.CustomerManagementService.Query.Application
         {
             builder.RegisterType<AuthService>().As<IAuthService>();
             builder.RegisterType<AuthRepository>().As<IAuthRepository>();
+            builder.Register(c => new CustomerManagementContext(_configuration["ConnectionString:SqlServer"]));
         }
     }
 }

@@ -2,14 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
+using BaseService;
 using OMF.ReviewManagementService.Query.Service.Abstractions;
 
 namespace OMF.ReviewManagementService.Query.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
     [ApiController]
-    public class ReviewController : ControllerBase
+    public class ReviewController : AppControllerBase
     {
         private readonly IReviewService _reviewService;
 
@@ -20,7 +20,7 @@ namespace OMF.ReviewManagementService.Query.Controllers
 
 
         [HttpGet("")]
-        public async Task<IActionResult> RestaurantReviews(Guid restaurantId)
+        public async Task<IActionResult> RestaurantReviews(int restaurantId)
         {
             var result = await _reviewService.GetRestaurantReviews(restaurantId);
             return Ok(result);

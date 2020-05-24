@@ -9,4 +9,9 @@
       <ProjectReference Include="..\OMF.ReviewManagementService.Command.Repository\OMF.ReviewManagementService.Command.Repository.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Event" />
+      <Folder Include="EventHandlers" />
+    </ItemGroup>
+
 </Project>

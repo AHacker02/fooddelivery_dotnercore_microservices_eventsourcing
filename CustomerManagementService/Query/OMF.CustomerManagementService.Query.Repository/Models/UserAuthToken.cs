@@ -1,6 +1,6 @@
 ﻿using OMF.Common.Models;
 
-namespace OMF.CustomerManagementService.Query.Application.Models
+namespace OMF.CustomerManagementService.Query.Repository.Models
 {
     public class UserAuthToken
     {

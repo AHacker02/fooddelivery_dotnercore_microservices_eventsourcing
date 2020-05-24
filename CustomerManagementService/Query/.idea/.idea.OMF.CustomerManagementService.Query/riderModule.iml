@@ -3,7 +3,6 @@
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$/../.." />
     <content url="file://$MODULE_DIR$/../../../../Infrastructure/BaseService" />
-    <content url="file://$MODULE_DIR$/../../../../Infrastructure/DataAccess" />
     <content url="file://$MODULE_DIR$/../../../../OMF.Common" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

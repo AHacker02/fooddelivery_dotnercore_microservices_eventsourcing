@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using OMF.CustomerManagementService.Query.Application.Services;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using BaseService;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using OMF.CustomerManagementService.Query.Service.Abstractions;
 
-namespace OMF.CustomerManagementService.Query.Controllers
+namespace OMF.CustomerManagementService.Query.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : AppControllerBase
     {
         private readonly IAuthService _authService;
 
@@ -16,7 +18,17 @@ namespace OMF.CustomerManagementService.Query.Controllers
         }
 
 
+        /// <summary>
+        /// Login User
+        /// </summary>
+        /// <param name="email"></param>
+        /// <param name="password"></param>
+        /// <returns>
+        /// Auth token 
+        /// User details
+        /// </returns>
         [HttpGet("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(string email, string password)
         {
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))

@@ -8,6 +8,7 @@ namespace OMF.CustomerManagementService.Command.Service.Event
         {
             Email = email;
         }
+
         public string Email { get; }
     }
 }

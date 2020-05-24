@@ -1,12 +1,13 @@
 using Autofac;
 using BaseService;
-using DataAccess.MongoDb;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using OMF.ReviewManagementService.Query.Application;
+using OMF.ReviewManagementService.Query.Repository.DataContext;
 
 namespace OMF.ReviewManagementService.Query
 {
@@ -30,8 +31,7 @@ namespace OMF.ReviewManagementService.Query
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterModule(new MongoDbModule(Configuration));
-            builder.RegisterModule(new ReviewModule());
+            builder.RegisterModule(new ReviewModule(Configuration));
         }
 
 

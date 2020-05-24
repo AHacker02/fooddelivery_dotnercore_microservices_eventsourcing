@@ -1,23 +1,24 @@
-﻿﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
- namespace OMF.CustomerManagementService.Command.Repository.DataContext
+namespace OMF.CustomerManagementService.Command.Repository.DataContext
 {
-    public partial class CustomerManagementContext : DbContext
+    public class CustomerManagementContext : DbContext
     {
-        
+        private readonly string _connectionString;
+
+        public CustomerManagementContext(string connectionString)
+        {
+            _connectionString = connectionString;
+        }
+
         public virtual DbSet<TblCustomer> TblCustomer { get; set; }
 
-        public CustomerManagementContext(DbContextOptions<CustomerManagementContext> options)
-            : base(options)
-        {
-        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-            {
-                
-            }
+                optionsBuilder.UseSqlServer(_connectionString);
         }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,11 +26,9 @@
             {
                 entity.ToTable("tblCustomer");
 
-                entity.Property(e => e.Id).HasColumnName("ID");
+                entity.Property(e => e.Id).HasColumnName("ID").UseIdentityColumn();
 
-                entity.Property(e => e.Address)
-                    .IsRequired()
-                    .HasDefaultValueSql("('')");
+                entity.Property(e => e.Address);
 
                 entity.Property(e => e.Email)
                     .IsRequired()
@@ -55,17 +54,15 @@
                     .IsRequired();
 
                 entity.Property(e => e.PasswordKey)
-                .IsRequired();
+                    .IsRequired();
 
-                entity.Property(e => e.RecordTimeStamp)
+                entity.Property(e => e.CreatedDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("((0))");
 
-                entity.Property(e => e.RecordTimeStampCreated)
+                entity.Property(e => e.ModifiedDate)
                     .HasColumnType("datetime")
                     .HasDefaultValueSql("((0))");
-
-                
             });
         }
     }

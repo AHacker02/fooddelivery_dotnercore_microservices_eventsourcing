@@ -7,7 +7,7 @@ namespace OMF.RestaurantService.Query.Service.Abstractions
 {
     public interface ISearchService
     {
-        Task<IEnumerable<Restaurant>> SearchRestaurant(int Id, string name, string coordinateX, string coordinateY,
+        Task<IEnumerable<Restaurant>> SearchRestaurant(string name, string coordinateX, string coordinateY,
             string budget, string rating, string food, string distance, string cuisine);
     }
 }

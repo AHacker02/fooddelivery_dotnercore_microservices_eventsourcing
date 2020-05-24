@@ -19,8 +19,6 @@ namespace OMF.RestaurantService.Query
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<RestaurantManagementContext>(options =>
-                options.UseSqlServer(Configuration.GetSection("ConnectionString").Value));
             ConfigureApplicationServices(services, new OpenApiInfo
             {
                 Version = "v1",
@@ -31,7 +29,7 @@ namespace OMF.RestaurantService.Query
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterModule(new RestaurantModule());
+            builder.RegisterModule(new RestaurantModule(Configuration));
         }
 
 

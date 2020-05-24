@@ -7,13 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.CustomerManagementServi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseService", "..\..\Infrastructure\BaseService\BaseService.csproj", "{3948F27B-B745-4C19-A6F5-AB267BEEFC83}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "..\..\Infrastructure\DataAccess\DataAccess.csproj", "{086E8F07-0998-4D74-8466-1DC20F4ECC86}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.Common", "..\..\OMF.Common\OMF.Common.csproj", "{A3687C80-7DD1-4CE6-9C4A-EF543BE95979}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OMF.CustomerManagementService.Query.Service", "OMF.CustomerManagementService.Query.Service\OMF.CustomerManagementService.Query.Service.csproj", "{B1DD801B-9F12-4927-B86C-05BB5EBFD074}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.CustomerManagementService.Query.Service", "OMF.CustomerManagementService.Query.Service\OMF.CustomerManagementService.Query.Service.csproj", "{B1DD801B-9F12-4927-B86C-05BB5EBFD074}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OMF.CustomerManagementService.Query.Repository", "OMF.CustomerManagementService.Query.Repository\OMF.CustomerManagementService.Query.Repository.csproj", "{B65AA897-32C4-4D44-8249-FAC2CF061101}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.CustomerManagementService.Query.Repository", "OMF.CustomerManagementService.Query.Repository\OMF.CustomerManagementService.Query.Repository.csproj", "{B65AA897-32C4-4D44-8249-FAC2CF061101}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +27,6 @@ Global
 		{3948F27B-B745-4C19-A6F5-AB267BEEFC83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3948F27B-B745-4C19-A6F5-AB267BEEFC83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3948F27B-B745-4C19-A6F5-AB267BEEFC83}.Release|Any CPU.Build.0 = Release|Any CPU
-		{086E8F07-0998-4D74-8466-1DC20F4ECC86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{086E8F07-0998-4D74-8466-1DC20F4ECC86}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{086E8F07-0998-4D74-8466-1DC20F4ECC86}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{086E8F07-0998-4D74-8466-1DC20F4ECC86}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A3687C80-7DD1-4CE6-9C4A-EF543BE95979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A3687C80-7DD1-4CE6-9C4A-EF543BE95979}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3687C80-7DD1-4CE6-9C4A-EF543BE95979}.Release|Any CPU.ActiveCfg = Release|Any CPU

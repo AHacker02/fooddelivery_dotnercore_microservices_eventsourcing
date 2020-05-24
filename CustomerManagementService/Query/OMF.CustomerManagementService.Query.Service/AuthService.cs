@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Threading.Tasks;
+using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using OMF.Common.Helpers;
-using OMF.CustomerManagementService.Query.Application.Models;
-using OMF.CustomerManagementService.Query.Application.Repositories;
-using System.Threading.Tasks;
+using OMF.CustomerManagementService.Query.Repository.Abstractions;
+using OMF.CustomerManagementService.Query.Repository.Models;
+using OMF.CustomerManagementService.Query.Service.Abstractions;
 
-namespace OMF.CustomerManagementService.Query.Application.Services
+namespace OMF.CustomerManagementService.Query.Service
 {
     public class AuthService : IAuthService
     {
@@ -23,7 +25,7 @@ namespace OMF.CustomerManagementService.Query.Application.Services
             if (user != null)
             {
                 user.Password = null;
-                user.PasswordSalt = null;
+                user.PasswordKey = null;
 
                 return new UserAuthToken
                 {

@@ -7,6 +7,6 @@ namespace OMF.ReviewManagementService.Query.Service.Abstractions
 {
     public interface IReviewService
     {
-        Task<IEnumerable<Review>> GetRestaurantReviews(Guid restaurantId);
+        Task<IEnumerable<Rating>> GetRestaurantReviews(int restaurantId);
     }
 }

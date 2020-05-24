@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace OMF.Common.Models
 {
@@ -18,5 +17,4 @@ namespace OMF.Common.Models
         public IEnumerable<Rating> Ratings { get; set; }
         public IEnumerable<RestaurantDetails> RestaurantDetails { get; set; }
     }
-
 }

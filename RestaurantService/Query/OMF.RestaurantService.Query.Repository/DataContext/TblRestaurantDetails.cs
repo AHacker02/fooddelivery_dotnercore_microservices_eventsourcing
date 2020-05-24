@@ -11,8 +11,8 @@ namespace OMF.RestaurantService.Query.Repository.DataContext
         public int Id { get; set; }
         public int UserCreated { get; set; }
         public int UserModified { get; set; }
-        public DateTime RecordTimeStamp { get; set; }
-        public DateTime RecordTimeStampCreated { get; set; }
+        public DateTime ModifiedTimeStamp { get; set; }
+        public DateTime CreatedRecordTimeStamp { get; set; }
 
         public TblRestaurant TblRestaurant { get; set; }
     }

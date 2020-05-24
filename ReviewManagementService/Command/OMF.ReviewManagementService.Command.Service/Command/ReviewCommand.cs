@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace OMF.ReviewManagementService.Command.Service.Command
+﻿namespace OMF.ReviewManagementService.Command.Service.Command
 {
     public class ReviewCommand : ServiceBus.Abstractions.Command
     {
-        public Guid RestaurantId { get; set; }
-        public decimal Rating { get; set; }
-        public string ReviewDescription { get; set; }
-        public Guid UserId { get; set; }
+        public string Rating { get; set; }
+        public string Comments { get; set; }
+        public int TblRestaurantId { get; set; }
+        public int CustomerId { get; set; }
     }
 }

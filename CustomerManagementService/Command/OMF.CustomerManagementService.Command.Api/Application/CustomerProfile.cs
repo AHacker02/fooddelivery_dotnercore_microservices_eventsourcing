@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using OMF.Common.Models;
+using OMF.CustomerManagementService.Command.Repository.DataContext;
 using OMF.CustomerManagementService.Command.Service.Command;
 
 namespace OMF.CustomerManagementService.Command.Api.Application
@@ -8,18 +8,20 @@ namespace OMF.CustomerManagementService.Command.Api.Application
     {
         public CustomerProfile()
         {
-            // CreateMap<CreateUserCommand, User>()
-            //     .ForMember(m => m.CreatedAt, opt => opt.MapFrom(o => o.TimeStamp))
-            //     .ForMember(m => m.Password, opt => opt.Ignore())
-            //     .ForMember(m => m.PasswordSalt, opt => opt.Ignore())
-            //     .ReverseMap();
-            //
-            // CreateMap<DeleteUserCommand, User>()
-            //     .ForMember(m => m.CreatedAt, opt => opt.MapFrom(o => o.TimeStamp))
-            //     .ForMember(m => m.Password, opt => opt.Ignore())
-            //     .ForMember(m => m.PasswordSalt, opt => opt.Ignore())
-            //     .ReverseMap();
+            CreateMap<CreateUserCommand, TblCustomer>()
+                .ForMember(m => m.Password, opt => opt.Ignore())
+                .ForMember(m => m.Id, opt => opt.Ignore())
+                .ReverseMap();
 
+            CreateMap<DeleteUserCommand, TblCustomer>()
+                .ForMember(m => m.Password, opt => opt.Ignore())
+                .ForMember(m => m.Id, opt => opt.Ignore())
+                .ReverseMap();
+            
+            CreateMap<UpdateUserCommand, TblCustomer>()
+                .ForMember(m => m.Password, opt => opt.Ignore())
+                .ForMember(m => m.Id, opt => opt.Ignore())
+                .ReverseMap();
         }
     }
 }

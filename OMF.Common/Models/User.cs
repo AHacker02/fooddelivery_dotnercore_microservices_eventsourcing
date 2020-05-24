@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace OMF.Common.Models
+﻿namespace OMF.Common.Models
 {
     public class User
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace OMF.RestaurantService.Query.Repository.DataContext
+namespace OMF.ReviewManagementService.Query.Repository.DataContext
 {
     public partial class TblRating
     {
@@ -13,7 +13,5 @@ namespace OMF.RestaurantService.Query.Repository.DataContext
         public int UserModified { get; set; }
         public DateTime RecordTimeStamp { get; set; }
         public DateTime RecordTimeStampCreated { get; set; }
-
-        public TblRestaurant TblRestaurant { get; set; }
     }
 }

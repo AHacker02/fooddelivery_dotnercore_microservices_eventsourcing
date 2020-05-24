@@ -1,33 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using DataAccess.Abstractions;
-using OMF.Common.Models;
 using OMF.ReviewManagementService.Command.Repository.Abstractions;
+using OMF.ReviewManagementService.Command.Repository.DataContext;
 
 namespace OMF.ReviewManagementService.Command.Repository
 {
     public class ReviewRepository : IReviewRepository
     {
-        private readonly INoSqlDataAccess _database;
+        private readonly RatingDataContext _database;
 
-        public ReviewRepository(INoSqlDataAccess database)
+        public ReviewRepository(RatingDataContext database)
         {
             _database = database;
         }
 
-        public async Task<IEnumerable<Review>> GetRestaurantReviews(Guid restaurantId)
-            => await _database.Find<Review>(x => x.RestaurantId == restaurantId);
-
-        public async Task UpsertReview(Review review)
+        public async Task<IEnumerable<TblRating>> GetRestaurantReviews(int restaurantId)
         {
-            var existingReview = await _database.Single<Review>(x => x.UserId == review.UserId && x.RestaurantId == review.RestaurantId);
-            if (existingReview != null)
-            {
-                await _database.Delete<Review>(x => x.Id == review.Id);
+            return _database.TblRating.Where(x => x.TblRestaurantId == restaurantId);
+        }
 
-            }
-            await _database.Add(review);
+        public async Task UpsertReview(TblRating review)
+        {
+            var existingReview = _database.TblRating.FirstOrDefault(x =>
+                x.TblCustomerId == review.TblCustomerId && x.TblRestaurantId == review.TblRestaurantId);
+            if (existingReview != null) _database.Remove(existingReview);
+            review.RecordTimeStamp = review.RecordTimeStampCreated = DateTime.Now;
+            _database.Add(review);
+            await _database.SaveChangesAsync();
         }
     }
 }

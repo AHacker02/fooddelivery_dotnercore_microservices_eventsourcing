@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Claims;
+using System.Threading.Tasks;
+using BaseService;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OMF.CustomerManagementService.Command.Service.Command;
 using ServiceBus.Abstractions;
-using System.Threading.Tasks;
 
 namespace OMF.CustomerManagementService.Command.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthController : ControllerBase
+    public class AuthController : AppControllerBase
     {
         private readonly IEventBus _bus;
 
@@ -17,6 +20,12 @@ namespace OMF.CustomerManagementService.Command.Api.Controllers
         }
 
 
+        /// <summary>
+        /// Register new user
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(CreateUserCommand command)
         {
@@ -27,12 +36,37 @@ namespace OMF.CustomerManagementService.Command.Api.Controllers
 
             return Accepted();
         }
-        [HttpDelete("delete")]
-        public async Task<IActionResult> Register(DeleteUserCommand command)
+
+        
+        /// <summary>
+        /// Deactivate account
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [AllowAnonymous]
+        [HttpDelete("deactivate")]
+        public async Task<IActionResult> Deactivate(DeleteUserCommand command)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            await _bus.PublishCommand(command);
+
+            return Accepted();
+        }
+
+        /// <summary>
+        /// Update user details except email
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
+        [HttpPut("updatedetails")]
+        public async Task<IActionResult> Update(UpdateUserCommand command)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+            
+            command.Email = User.FindFirst(ClaimTypes.Name).Value;
             await _bus.PublishCommand(command);
 
             return Accepted();

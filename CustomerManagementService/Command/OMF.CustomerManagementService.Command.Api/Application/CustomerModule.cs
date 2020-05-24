@@ -17,14 +17,17 @@ namespace OMF.CustomerManagementService.Command.Api.Application
         {
             _configuration = configuration;
         }
+
         protected override void Load(ContainerBuilder builder)
         {
             //Service Registrations
             builder.RegisterType<AuthRepository>().As<IAuthRepository>();
+            builder.Register(c => new CustomerManagementContext(_configuration["ConnectionString:SqlServer"]));
 
             //Handler Registrations
             builder.RegisterType<CreateUserCommandHandler>().As<ICommandHandler<CreateUserCommand>>();
             builder.RegisterType<DeleteUserCommandHandler>().As<ICommandHandler<DeleteUserCommand>>();
+            builder.RegisterType<UpdateUserCommandHandler>().As<ICommandHandler<UpdateUserCommand>>();
         }
     }
 }

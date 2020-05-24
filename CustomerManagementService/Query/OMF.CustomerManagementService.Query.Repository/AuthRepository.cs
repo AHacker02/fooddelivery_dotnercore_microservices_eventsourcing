@@ -1,24 +1,30 @@
-﻿using DataAccess.Abstractions;
-using OMF.Common.Models;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using OMF.Common.Models;
+using OMF.CustomerManagementService.Query.Repository.Abstractions;
+using OMF.CustomerManagementService.Query.Repository.DataContext;
 
-namespace OMF.CustomerManagementService.Query.Application.Repositories
+namespace OMF.CustomerManagementService.Query.Repository
 {
     public class AuthRepository : IAuthRepository
     {
-        private INoSqlDataAccess _database;
-        public AuthRepository(INoSqlDataAccess database)
+        private CustomerManagementContext _database;
+        private readonly IMapper _map;
+
+        public AuthRepository(CustomerManagementContext database,IMapper map)
         {
             _database = database;
+            _map = map;
         }
         public async Task<User> Login(string email, string password)
         {
-            var user = await _database.Single<User>(x => x.Email.Equals(email));
+            var user = _map.Map<User>(_database.TblCustomer.FirstOrDefault(x=>x.Email.Equals(email)));
             if (user == null)
             {
                 return null;
             }
-            return !VerifyPasswordHash(password, user.Password, user.PasswordSalt) ? null : user;
+            return !VerifyPasswordHash(password, user.Password, user.PasswordKey) ? null : user;
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
