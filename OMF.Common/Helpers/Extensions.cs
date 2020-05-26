@@ -48,10 +48,18 @@ namespace OMF.Common.Helpers
             {
                 foreach (var dest in destProperties)
                 {
-                    if (src.GetValue(source) != null && src.Name == dest.Name && src.PropertyType == dest.PropertyType )
+                    try
                     {
-                        dest.SetValue(destination, src.GetValue(source));
-                        break;
+                        if (src.GetValue(source) != null && src.Name == dest.Name &&
+                            src.PropertyType == dest.PropertyType)
+                        {
+                            dest.SetValue(destination, src.GetValue(source));
+                            break;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+
                     }
                 }
                 

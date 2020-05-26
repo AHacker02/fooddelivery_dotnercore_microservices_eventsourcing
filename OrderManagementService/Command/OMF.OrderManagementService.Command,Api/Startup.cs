@@ -1,13 +1,14 @@
 using Autofac;
 using BaseService;
-using DataAccess.MongoDb;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using OMF.Common.Events;
 using OMF.OrderManagementService.Command.Application;
+using OMF.OrderManagementService.Command.Repository.DataContext;
 using OMF.OrderManagementService.Command.Service.Commands;
 using OMF.OrderManagementService.Command.Service.Events;
 using ServiceBus.Abstractions;
@@ -36,8 +37,7 @@ namespace OMF.OrderManagementService.Command
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterModule(new MongoDbModule(Configuration));
-            builder.RegisterModule(new OrderModule());
+            builder.RegisterModule(new OrderModule(Configuration));
         }
 
 
@@ -45,9 +45,13 @@ namespace OMF.OrderManagementService.Command
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILifetimeScope container)
         {
             base.ConfigureApplication(app, env);
+            var context = container.Resolve<OrderManagementContext>();
+            context.Database.EnsureCreated();
             var eventBus = container.Resolve<IEventBus>();
             eventBus.SubscribeCommand<CancelOrderCommand>();
             eventBus.SubscribeCommand<OrderCommand>();
+            eventBus.SubscribeCommand<PaymentCommand>();
+
             eventBus.SubscribeEvent<OrderReadyEvent>();
             eventBus.SubscribeEvent<PaymentInitiatedEvent>();
         }

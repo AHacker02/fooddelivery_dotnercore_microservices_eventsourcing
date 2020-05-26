@@ -9,7 +9,7 @@ namespace OMF.Common.Models
         public DateTime TimeStamp { get; set; }
         public Guid Id { get; set; }
         public Guid RestaurantId { get; set; }
-        public List<Item> OrderItems { get; set; }
+        public List<FoodOrderItem> OrderItems { get; set; }
         public string Status { get; set; }
         public Guid UserId { get; set; }
         public string Address { get; set; }

@@ -7,15 +7,15 @@ namespace OMF.Common.Events
 {
     public class OrderConfirmedEvent : Event
     {
-        public OrderConfirmedEvent(Guid id, Guid restaurantId, List<Item> orderItems, string address) : base(id)
+        public OrderConfirmedEvent(Guid id, int restaurantId, List<FoodOrderItem> orderItems, string address) : base(id)
         {
             RestaurantId = restaurantId;
             OrderItems = orderItems;
             Address = address;
         }
 
-        public Guid RestaurantId { get; set; }
-        public List<Item> OrderItems { get; set; }
+        public int RestaurantId { get; set; }
+        public List<FoodOrderItem> OrderItems { get; set; }
         public string Address { get; set; }
     }
 }

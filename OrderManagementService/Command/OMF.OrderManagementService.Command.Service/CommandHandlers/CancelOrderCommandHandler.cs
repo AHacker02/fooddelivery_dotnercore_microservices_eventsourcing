@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using OMF.Common.Enums;
 using OMF.Common.Events;
 using OMF.Common.Helpers;
 using OMF.OrderManagementService.Command.Repository.Abstractions;
@@ -23,23 +24,23 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
         {
             try
             {
-                var order = await _orderRepository.GetOrder(command.Id);
-                if (order.UserId != command.UserId)
-                {
-                    await _bus.PublishEvent(new ExceptionEvent("user_unauthorized",
-                        "User is not authorized to cancel the order", command));
-                }
+                //var order = await _orderRepository.GetOrder<>(command.Id);
+                //if (order.UserId != command.UserId)
+                //{
+                //    await _bus.PublishEvent(new ExceptionEvent("user_unauthorized",
+                //        "User is not authorized to cancel the order", command));
+                //}
 
-                if ((OrderStatus)Enum.Parse(typeof(OrderStatus), order.Status, true) <= OrderStatus.PaymentSuccessful)
-                {
-                    order.Status = OrderStatus.Cancelled.ToString();
-                    await _orderRepository.UpdateOrder(order);
-                }
-                else
-                {
-                    await _bus.PublishEvent(new ExceptionEvent("cancellation_denied",
-                        "Order cannot be cancelled", command));
-                }
+                //if ((OrderStatus)Enum.Parse(typeof(OrderStatus), order.Status, true) <= OrderStatus.PaymentSuccessful)
+                //{
+                //    order.Status = OrderStatus.Cancelled.ToString();
+                //    await _orderRepository.UpdateOrder(order);
+                //}
+                //else
+                //{
+                //    await _bus.PublishEvent(new ExceptionEvent("cancellation_denied",
+                //        "Order cannot be cancelled", command));
+                //}
 
             }
             catch (Exception ex)
