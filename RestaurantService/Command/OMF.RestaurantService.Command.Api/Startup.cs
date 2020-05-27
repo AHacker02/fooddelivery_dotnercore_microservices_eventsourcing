@@ -1,6 +1,5 @@
 using Autofac;
 using BaseService;
-using DataAccess.MongoDb;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -36,7 +35,6 @@ namespace OMF.RestaurantService.Command
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterModule(new MongoDbModule(Configuration));
             builder.RegisterModule(new RestaurantModule());
         }
 

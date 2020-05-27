@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OMF.Common.Models;
+using OMF.RestaurantService.Query.Repository.DataContext;
 
 namespace OMF.RestaurantService.Repository.Abstractions
 {
@@ -9,8 +10,8 @@ namespace OMF.RestaurantService.Repository.Abstractions
     {
         Task AddRestaurantsAsync(IEnumerable<Restaurant> restaurants);
         Task<IEnumerable<Restaurant>> GetAllRestaurantsAsync();
-        Task UpdateStock(List<Item> orderItems);
-        Task UpdateRating(Guid restaurantId, string rating);
+        Task UpdateStock(List<TblMenu> orderItems);
+        Task UpdateRating(int restaurantId, string rating);
 
     }
 }

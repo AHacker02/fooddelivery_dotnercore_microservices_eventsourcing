@@ -18,7 +18,6 @@ namespace OMF.RestaurantService.Query.Controllers
         }
 
         [HttpGet("search")]
-        [AllowAnonymous]
         public async Task<IActionResult> SearchRestaurants(string id=null,string name = null, string coordinateX = null, string coordinateY=null,
             string budget = null, string rating = null, string food = null,string distance="5", string cuisine=null)
         {
