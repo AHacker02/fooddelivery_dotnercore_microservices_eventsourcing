@@ -29,8 +29,8 @@ namespace OMF.RestaurantService.Query.Application
                 var con = c.Resolve<ConnectionSettings>();
                 return new ElasticClient(con);
             });
-            builder.Register<RestaurantManagementContext>(x =>
-                new RestaurantManagementContext(_configuration["ConnectionString:Elastic"]));
+            //builder.Register<RestaurantManagementContext>(x =>
+            //    new RestaurantManagementContext(_configuration["ConnectionString:SqlServer"]));
 
 
         }

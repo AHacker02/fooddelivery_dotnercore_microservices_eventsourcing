@@ -4,16 +4,21 @@ namespace OMF.RestaurantService.Query.Repository.DataContext
 {
     public partial class RestaurantManagementContext : DbContext
     {
-        private readonly string _connectionString;
-        public RestaurantManagementContext(string connectionString):base()
+
+        public RestaurantManagementContext(DbContextOptions<RestaurantManagementContext> options)
+            : base(options)
         {
-            _connectionString = connectionString;
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if(!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer(_connectionString);
-        }
+        //private readonly string _connectionString;
+        //public RestaurantManagementContext(string connectionString):base()
+        //{
+        //    _connectionString = connectionString;
+        //}
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if(!optionsBuilder.IsConfigured)
+        //        optionsBuilder.UseSqlServer(_connectionString);
+        //}
         
         public virtual DbSet<TblCuisine> TblCuisine { get; set; }
         public virtual DbSet<TblLocation> TblLocation { get; set; }
@@ -79,7 +84,7 @@ namespace OMF.RestaurantService.Query.Repository.DataContext
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tblMenu_tblCuisineID");
 
-                entity.Property(e => e.quantity)
+                entity.Property(e => e.Quantity)
                     .HasColumnName("Quantity")
                     .HasDefaultValueSql("((0))");
             });
@@ -161,11 +166,13 @@ namespace OMF.RestaurantService.Query.Repository.DataContext
 
                 entity.Property(e => e.Rating)
                     .IsRequired()
-                    .HasColumnType("decimal(3,1)");
+                    .HasColumnType("decimal(3,1)")
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Budget)
                     .IsRequired()
-                    .HasColumnType("decimal(18,2)");
+                    .HasColumnType("decimal(18,2)")
+                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Website)
                     .IsRequired()

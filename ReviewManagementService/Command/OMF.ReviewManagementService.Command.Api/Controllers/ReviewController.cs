@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Threading.Tasks;
 using BaseService;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OMF.ReviewManagementService.Command.Service.Command;
@@ -13,11 +14,11 @@ namespace OMF.ReviewManagementService.Command.Controllers
     [ApiController]
     public class ReviewController : AppControllerBase
     {
-        private readonly IEventBus _bus;
+        private readonly IMediator _service;
 
-        public ReviewController(IEventBus bus)
+        public ReviewController(IMediator service)
         {
-            _bus = bus;
+            _service = service;
         }
 
         [HttpPost("")]
@@ -25,10 +26,11 @@ namespace OMF.ReviewManagementService.Command.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-            command.CustomerId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
-            await _bus.PublishCommand(command);
 
-            return Accepted();
+            command.CustomerId = Convert.ToInt32(User.FindFirst(ClaimTypes.NameIdentifier).Value);
+            var result = await _service.Send(command);
+
+            return StatusCode(result.Code,result.Message);
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using MediatR;
+using OMF.Common.Models;
 using ServiceBus.Abstractions;
 
 namespace OMF.CustomerManagementService.Command.Service.Command
 {
-    public class UpdateUserCommand:ServiceBus.Abstractions.Command
+    public class UpdateUserCommand:IRequest<Response>
     {
         public string FirstName { get; set; }
 

@@ -23,7 +23,7 @@ namespace OMF.ReviewManagementService.Command
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<RatingDataContext>(options =>
-                options.UseSqlServer(Configuration.GetSection("ConnectionString").Value));
+                options.UseSqlServer(Configuration["ConnectionString:SqlServer"]));
             services.AddRabbitMq(Configuration);
             ConfigureApplicationServices(services, new OpenApiInfo
             {
@@ -42,8 +42,6 @@ namespace OMF.ReviewManagementService.Command
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILifetimeScope container)
         {
             ConfigureApplication(app, env);
-            var eventBus = container.Resolve<IEventBus>();
-            eventBus.SubscribeCommand<ReviewCommand>();
         }
     }
 }

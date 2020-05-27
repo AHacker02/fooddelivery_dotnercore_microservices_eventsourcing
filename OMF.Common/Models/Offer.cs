@@ -8,6 +8,7 @@ namespace OMF.Common.Models
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public int Discount { get; set; }
-        public int Id { get; set; }
+        public int ItemId { get; set; }
+        public string Item { get; set; }
     }
 }

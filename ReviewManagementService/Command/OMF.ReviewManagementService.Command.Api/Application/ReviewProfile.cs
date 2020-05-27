@@ -10,6 +10,7 @@ namespace OMF.ReviewManagementService.Command.Application
         {
             CreateMap<ReviewCommand,TblRating>()
                 .ForMember(x=>x.Id,opts=>opts.Ignore())
+                .ForMember(x=>x.TblRestaurantId,opts=> opts.MapFrom(d => d.RestaurantId))
                 .ForMember(x=>x.TblCustomerId,opts=>opts.MapFrom(d=>d.CustomerId))
                 .ReverseMap();
         }

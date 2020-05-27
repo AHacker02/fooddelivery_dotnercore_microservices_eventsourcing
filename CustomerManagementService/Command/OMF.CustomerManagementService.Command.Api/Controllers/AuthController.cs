@@ -1,6 +1,8 @@
-﻿using System.Security.Claims;
+﻿using System.Net;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using BaseService;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OMF.CustomerManagementService.Command.Service.Command;
@@ -12,11 +14,12 @@ namespace OMF.CustomerManagementService.Command.Api.Controllers
     [ApiController]
     public class AuthController : AppControllerBase
     {
-        private readonly IEventBus _bus;
+        private readonly IMediator _service;
 
-        public AuthController(IEventBus bus)
+
+        public AuthController(IMediator service)
         {
-            _bus = bus;
+            _service = service;
         }
 
 
@@ -31,13 +34,10 @@ namespace OMF.CustomerManagementService.Command.Api.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
-            await _bus.PublishCommand(command);
-
-            return Accepted();
+            var result = await _service.Send(command);
+            return StatusCode(result.Code,result.Message);
         }
 
-        
         /// <summary>
         /// Deactivate account
         /// </summary>
@@ -50,9 +50,8 @@ namespace OMF.CustomerManagementService.Command.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            await _bus.PublishCommand(command);
-
-            return Accepted();
+            var result = await _service.Send(command);
+            return StatusCode(result.Code, result.Message);
         }
 
         /// <summary>
@@ -67,9 +66,9 @@ namespace OMF.CustomerManagementService.Command.Api.Controllers
                 return BadRequest(ModelState);
             
             command.Email = User.FindFirst(ClaimTypes.Name).Value;
-            await _bus.PublishCommand(command);
 
-            return Accepted();
+            var result = await _service.Send(command);
+            return StatusCode(result.Code, result.Message);
         }
     }
 }

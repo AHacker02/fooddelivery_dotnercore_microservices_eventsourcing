@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using MediatR;
+using OMF.Common.Models;
 
 namespace OMF.CustomerManagementService.Command.Service.Command
 {
-    public class CreateUserCommand : ServiceBus.Abstractions.Command
+    public class CreateUserCommand : IRequest<Response>
     {
         [Required] public string FirstName { get; set; }
 

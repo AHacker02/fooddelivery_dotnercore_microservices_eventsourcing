@@ -20,7 +20,7 @@ namespace OMF.ReviewManagementService.Query.Application
         {
             builder.RegisterType<ReviewService>().As<IReviewService>();
             builder.RegisterType<ReviewRepository>().As<IReviewRepository>();
-            builder.Register(c => new RatingDataContext(_configuration["ConnectionString:SqlServer"]));
+           // builder.Register(c => new RatingDataContext(_configuration["ConnectionString:SqlServer"]));
         }
     }
 }

@@ -28,11 +28,13 @@ namespace OMF.RestaurantService.Query.Repository
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Restaurant>> SearchRestaurantAsync(string name, string coordinateX, string coordinateY,
+        public async Task<IEnumerable<Restaurant>> SearchRestaurantAsync(string id, string name, string coordinateX,
+            string coordinateY,
             string budget, string rating, string food, string distance, string cuisine)
         {
                 var filteredRestaurant = from r in _database.TblRestaurant
-                    where (name == null || r.Name.ToLower().Contains(name.ToLower()))
+                    where (id == null || r.Id== Convert.ToInt32(id))
+                          && (name == null || r.Name.ToLower().Contains(name.ToLower()))
                           && (budget == null || r.TblOffer.Average(x => x.Price) <= Convert.ToDecimal(budget))
                           && (food == null || r.TblOffer.Any(x => x.TblMenu.Item.ToLower().Contains(food.ToLower()) || food.ToLower().Contains(x.TblMenu.Item.ToLower())))
                           && (cuisine == null || r.TblOffer.Any(x => x.TblMenu.TblCuisine.Cuisine.ToLower().Contains(cuisine.ToLower()) || cuisine.Contains(x.TblMenu.TblCuisine.Cuisine.ToLower())))
@@ -42,7 +44,7 @@ namespace OMF.RestaurantService.Query.Repository
                 
 
                 return _map.Map<IEnumerable<Restaurant>>(filteredRestaurant
-                    .Include(x => x.TblOffer)
+                    .Include(x => x.TblOffer).ThenInclude(y=>y.TblMenu)
                     .Include(x => x.TblLocation)
                     .Include(x => x.TblRestaurantDetails));
         }

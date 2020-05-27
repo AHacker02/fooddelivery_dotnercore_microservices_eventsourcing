@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using MediatR;
 using OMF.Common.Events;
+using OMF.Common.Models;
 using OMF.ReviewManagementService.Command.Repository.Abstractions;
 using OMF.ReviewManagementService.Command.Repository.DataContext;
 using OMF.ReviewManagementService.Command.Service.Command;
@@ -9,7 +13,7 @@ using ServiceBus.Abstractions;
 
 namespace OMF.ReviewManagementService.Command.Service.CommandHandlers
 {
-    public class ReviewUpdateCommandHandler : ICommandHandler<ReviewCommand>
+    public class ReviewUpdateCommandHandler : IRequestHandler<ReviewCommand, Response>
     {
         private readonly IEventBus _bus;
         private readonly IMapper _map;
@@ -22,18 +26,18 @@ namespace OMF.ReviewManagementService.Command.Service.CommandHandlers
             _map = map;
         }
 
-        public async Task HandleAsync(ReviewCommand command)
+        public async Task<Response> Handle(ReviewCommand command, CancellationToken cancellationToken)
         {
-            try
-            {
-                var review = _map.Map<TblRating>(command);
-                await _reviewRepository.UpsertReview(review);
-            }
-            catch (Exception ex)
-            {
-                await _bus.PublishEvent(new ExceptionEvent("system_exception",
-                    $"Message: {ex.Message} Stacktrace: {ex.StackTrace}", command));
-            }
+
+            var review = _map.Map<TblRating>(command);
+            await _reviewRepository.UpsertReview(review);
+
+            var rating=(await _reviewRepository.GetRestaurantReviews(command.RestaurantId)).Average(x => Convert.ToDecimal(x.Rating));
+
+            await _bus.PublishEvent(new UpdateRestaurantEvent(command.RestaurantId, rating.ToString()));
+
+            return new Response(200,"Review added successfully");
+
         }
     }
 }

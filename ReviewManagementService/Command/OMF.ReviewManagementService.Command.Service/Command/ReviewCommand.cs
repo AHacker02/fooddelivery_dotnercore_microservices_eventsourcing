@@ -1,10 +1,13 @@
-﻿namespace OMF.ReviewManagementService.Command.Service.Command
+﻿using MediatR;
+using OMF.Common.Models;
+
+namespace OMF.ReviewManagementService.Command.Service.Command
 {
-    public class ReviewCommand : ServiceBus.Abstractions.Command
+    public class ReviewCommand : IRequest<Response>
     {
         public string Rating { get; set; }
         public string Comments { get; set; }
-        public int TblRestaurantId { get; set; }
+        public int RestaurantId { get; set; }
         public int CustomerId { get; set; }
     }
 }

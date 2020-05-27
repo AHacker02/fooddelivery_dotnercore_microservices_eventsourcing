@@ -18,9 +18,10 @@ namespace OMF.RestaurantService.Query.Service
             _restaurantRepository = restaurantRepository;
         }
 
-        public async Task<IEnumerable<Restaurant>> SearchRestaurant(string name , string coordinateX , string coordinateY ,
-            string budget , string rating , string food , string distance, string cuisine)
-            => await _restaurantRepository.SearchRestaurantAsync(name, coordinateX, coordinateY, budget, rating, food, distance,cuisine);
+        public async Task<IEnumerable<Restaurant>> SearchRestaurant(string id, string name, string coordinateX,
+            string coordinateY,
+            string budget, string rating, string food, string distance, string cuisine)
+            => await _restaurantRepository.SearchRestaurantAsync(id,name, coordinateX, coordinateY, budget, rating, food, distance,cuisine);
         
         
     }

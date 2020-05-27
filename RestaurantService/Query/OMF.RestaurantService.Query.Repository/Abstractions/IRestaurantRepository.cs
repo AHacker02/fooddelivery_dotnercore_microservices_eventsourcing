@@ -8,7 +8,8 @@ namespace OMF.RestaurantService.Query.Repository.Abstractions
     public interface IRestaurantRepository
     {
         Task<IEnumerable<Restaurant>> GetAllRestaurantsAsync();
-        Task<IEnumerable<Restaurant>> SearchRestaurantAsync(string name, string coordinateX, string coordinateY,
+        Task<IEnumerable<Restaurant>> SearchRestaurantAsync(string id, string name, string coordinateX,
+            string coordinateY,
             string budget, string rating, string food, string distance, string cuisine);
     }
 }

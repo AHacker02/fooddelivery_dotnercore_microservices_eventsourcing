@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using MediatR;
+using OMF.Common.Models;
 using OMF.ReviewManagementService.Command.Repository;
 using OMF.ReviewManagementService.Command.Repository.Abstractions;
 using OMF.ReviewManagementService.Command.Service.Command;
@@ -12,7 +14,7 @@ namespace OMF.ReviewManagementService.Command.Application
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<ReviewRepository>().As<IReviewRepository>();
-            builder.RegisterType<ReviewUpdateCommandHandler>().As<ICommandHandler<ReviewCommand>>();
+            builder.RegisterType<ReviewUpdateCommandHandler>().As<IRequestHandler<ReviewCommand,Response>>();
         }
     }
 }

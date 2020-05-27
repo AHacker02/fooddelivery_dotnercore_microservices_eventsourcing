@@ -1,13 +1,17 @@
 using Autofac;
 using BaseService;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using OMF.Common.Models;
 using OMF.CustomerManagementService.Command.Api.Application;
 using OMF.CustomerManagementService.Command.Repository.DataContext;
 using OMF.CustomerManagementService.Command.Service.Command;
+using OMF.CustomerManagementService.Command.Service.CommandHandlers;
 using ServiceBus.Abstractions;
 using ServiceBus.RabbitMq;
 
@@ -21,7 +25,6 @@ namespace OMF.CustomerManagementService.Command.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRabbitMq(Configuration);
             ConfigureApplicationServices(services, new OpenApiInfo
             {
                 Version = "v1",
@@ -42,11 +45,7 @@ namespace OMF.CustomerManagementService.Command.Api
 
             var context = container.Resolve<CustomerManagementContext>();
             context.Database.EnsureCreated();
-
-            var eventBus = container.Resolve<IEventBus>();
-            eventBus.SubscribeCommand<CreateUserCommand>();
-            eventBus.SubscribeCommand<DeleteUserCommand>();
-            eventBus.SubscribeCommand<UpdateUserCommand>();
+            
         }
     }
 }

@@ -4,16 +4,21 @@ namespace OMF.ReviewManagementService.Query.Repository.DataContext
 {
     public partial class RatingDataContext:DbContext
     {
-        private readonly string _connectionString;
+        //private readonly string _connectionString;
 
-        public RatingDataContext(string connectionString):base()
+        //public RatingDataContext(string connectionString):base()
+        //{
+        //    _connectionString = connectionString;
+        //}
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if(!optionsBuilder.IsConfigured)
+        //        optionsBuilder.UseSqlServer(_connectionString);
+        //}
+
+        public RatingDataContext(DbContextOptions<RatingDataContext> options)
+            : base(options)
         {
-            _connectionString = connectionString;
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if(!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer(_connectionString);
         }
         public virtual DbSet<TblRating> TblRating { get; set; }
 

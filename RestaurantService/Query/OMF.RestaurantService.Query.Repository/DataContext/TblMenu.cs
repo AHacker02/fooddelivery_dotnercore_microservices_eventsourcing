@@ -20,6 +20,6 @@ namespace OMF.RestaurantService.Query.Repository.DataContext
 
         public TblCuisine TblCuisine { get; set; }
         public ICollection<TblOffer> TblOffer { get; set; }
-        public int quantity { get; set; }
+        public int Quantity { get; set; }
     }
 }

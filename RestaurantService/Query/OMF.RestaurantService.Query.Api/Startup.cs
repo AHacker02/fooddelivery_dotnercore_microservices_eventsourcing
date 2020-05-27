@@ -19,6 +19,8 @@ namespace OMF.RestaurantService.Query
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<RestaurantManagementContext>(options =>
+                options.UseSqlServer(Configuration["ConnectionString:SqlServer"]));
             ConfigureApplicationServices(services, new OpenApiInfo
             {
                 Version = "v1",

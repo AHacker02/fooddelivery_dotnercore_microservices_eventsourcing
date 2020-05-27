@@ -1,5 +1,7 @@
 ﻿using Autofac;
+using MediatR;
 using Microsoft.Extensions.Configuration;
+using OMF.Common.Models;
 using OMF.CustomerManagementService.Command.Repository;
 using OMF.CustomerManagementService.Command.Repository.Abstractions;
 using OMF.CustomerManagementService.Command.Repository.DataContext;
@@ -25,9 +27,9 @@ namespace OMF.CustomerManagementService.Command.Api.Application
             builder.Register(c => new CustomerManagementContext(_configuration["ConnectionString:SqlServer"]));
 
             //Handler Registrations
-            builder.RegisterType<CreateUserCommandHandler>().As<ICommandHandler<CreateUserCommand>>();
-            builder.RegisterType<DeleteUserCommandHandler>().As<ICommandHandler<DeleteUserCommand>>();
-            builder.RegisterType<UpdateUserCommandHandler>().As<ICommandHandler<UpdateUserCommand>>();
+            builder.RegisterType<CreateUserCommandHandler>().As<IRequestHandler<CreateUserCommand,Response>>();
+            builder.RegisterType<DeleteUserCommandHandler>().As<IRequestHandler<DeleteUserCommand,Response>>();
+            builder.RegisterType<UpdateUserCommandHandler>().As<IRequestHandler<UpdateUserCommand,Response>>();
         }
     }
 }

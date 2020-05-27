@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using MediatR;
 using OMF.Common.Events;
+using OMF.Common.Models;
 using OMF.CustomerManagementService.Command.Repository.Abstractions;
 using OMF.CustomerManagementService.Command.Repository.DataContext;
 using OMF.CustomerManagementService.Command.Service.Command;
@@ -10,16 +13,14 @@ using ServiceBus.Abstractions;
 
 namespace OMF.CustomerManagementService.Command.Service.CommandHandlers
 {
-    public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Response>
     {
         private readonly IAuthRepository _authRepository;
-        private readonly IEventBus _bus;
         private readonly IMapper _map;
 
-        public CreateUserCommandHandler(IAuthRepository authRepository, IEventBus bus, IMapper map)
+        public CreateUserCommandHandler(IAuthRepository authRepository, IMapper map)
         {
             _authRepository = authRepository;
-            _bus = bus;
             _map = map;
         }
 
@@ -28,26 +29,19 @@ namespace OMF.CustomerManagementService.Command.Service.CommandHandlers
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        public async Task HandleAsync(CreateUserCommand command)
+        public async Task<Response> Handle(CreateUserCommand command, CancellationToken cancellationToken)
         {
-            try
-            {
-                command.Email = command.Email.ToLower();
-                var userToCreate = _map.Map<TblCustomer>(command);
+            command.Email = command.Email.ToLower();
+            var userToCreate = _map.Map<TblCustomer>(command);
 
-                if (await _authRepository.UserExists(command.Email))
-                    await _bus.PublishEvent(new ExceptionEvent("user_already_exists",
-                        $"Email: {command.Email} is already in use", command));
+            if (await _authRepository.UserExists(command.Email))
+                return new Response(400, $"Email: {command.Email} is already in use");
 
-                var createdUser = await _authRepository.Register(userToCreate, command.Password);
+            var createdUser = await _authRepository.Register(userToCreate, command.Password);
 
-                await _bus.PublishEvent(new UserCreatedEvent(createdUser.Email, command.Id));
-            }
-            catch (Exception ex)
-            {
-                await _bus.PublishEvent(new ExceptionEvent("system_exception",
-                    $"Message: {ex.Message} Stacktrace: {ex.StackTrace}", command));
-            }
+            return new Response(200, "User registered succesfully");
+
         }
+
     }
 }

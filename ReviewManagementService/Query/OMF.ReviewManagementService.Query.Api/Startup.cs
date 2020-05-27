@@ -20,6 +20,8 @@ namespace OMF.ReviewManagementService.Query
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<RatingDataContext>(options =>
+                options.UseSqlServer(Configuration["ConnectionString:SqlServer"]));
             base.ConfigureApplicationServices(services, new OpenApiInfo
             {
                 Version = "v1",
