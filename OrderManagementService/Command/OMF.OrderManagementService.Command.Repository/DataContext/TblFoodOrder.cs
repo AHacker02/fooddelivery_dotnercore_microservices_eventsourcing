@@ -6,7 +6,7 @@ using OMF.OrderManagementService.Command.Repository.Abstractions;
 
 namespace OMF.OrderManagementService.Command.Repository.DataContext
 {
-    public class TblFoodOrder:IPaymentEntity
+    public class TblFoodOrder:IEntity
     {
         public TblFoodOrder()
         {
@@ -20,5 +20,6 @@ namespace OMF.OrderManagementService.Command.Repository.DataContext
         public DateTime ModifiedDate { get; set; }
         public virtual ICollection<TblFoodOrderItem> TblFoodOrderItem { get; set; }
        public string Status { get ; set ; }
+       public int PaymentId { get; set; }
     }
 }

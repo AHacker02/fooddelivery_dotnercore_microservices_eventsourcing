@@ -5,6 +5,7 @@ using BaseService;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using OMF.ReviewManagementService.Command.Service.Command;
 using ServiceBus.Abstractions;
 
@@ -16,7 +17,7 @@ namespace OMF.ReviewManagementService.Command.Controllers
     {
         private readonly IMediator _service;
 
-        public ReviewController(IMediator service)
+        public ReviewController(IMediator service,IConfiguration configuration):base(configuration)
         {
             _service = service;
         }

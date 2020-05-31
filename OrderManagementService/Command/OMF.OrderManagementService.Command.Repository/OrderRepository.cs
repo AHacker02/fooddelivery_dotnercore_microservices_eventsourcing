@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
-using DataAccess.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using OMF.Common.Abstractions;
 using OMF.Common.Enums;
 using OMF.Common.Helpers;
 using OMF.Common.Models;
@@ -13,10 +15,14 @@ namespace OMF.OrderManagementService.Command.Repository
     public class OrderRepository : IOrderRepository
     {
         private readonly OrderManagementContext _database;
+        private readonly IHttpWrapper _httpWrapper;
+        private readonly IConfiguration _configuration;
 
-        public OrderRepository(OrderManagementContext database)
+        public OrderRepository(OrderManagementContext database,IHttpWrapper httpWrapper,IConfiguration configuration)
         {
             _database = database;
+            _httpWrapper = httpWrapper;
+            _configuration = configuration;
         }
 
         public async Task<TblFoodOrder> CreateOrder(TblFoodOrder order)
@@ -35,29 +41,38 @@ namespace OMF.OrderManagementService.Command.Repository
             return await _database.SaveChangesAsync() > 0 ? order : null;
         }
 
-        public async Task<T> GetDetails<T>(int id) where T :class, IPaymentEntity
+        public bool CheckAvailibility(int restaurantId, DateTime fromDate, DateTime toDate,ref Restaurant restaurant)
+        {
+            var restaurantTask = _httpWrapper.Get<Restaurant>(string.Format(_configuration["RestaurantURL"], restaurantId));
+            var bookedTable = _database.TblTableBooking.CountAsync(x => x.FromDate >= fromDate && x.ToDate >= toDate);
+            Task.WhenAll(restaurantTask, bookedTable);
+            restaurant = restaurantTask.Result;
+            return restaurant.RestaurantDetails.FirstOrDefault().TableCount - bookedTable.Result > 0;
+        }
+
+        public async Task<T> GetDetails<T>(int id) where T :class, IEntity
             => await _database.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
 
-        public async Task UpdateOrder<T>(T order) where T : class, IPaymentEntity
+        public async Task UpdateDetails<T>(T order) where T : class, IEntity
         {
             var dborder=await _database.Set<T>().FirstOrDefaultAsync(x => x.Id == order.Id);
             dborder.Copy(order);
             await _database.SaveChangesAsync();
         }
 
-        public async Task<Guid> CreatePayment(TblOrderPayment payment)
+        public async Task<Guid> CreatePayment(TblOrderPayment payment, string domain, int orderId)
         {
             var trasactionId=Guid.NewGuid();
             payment.TransactionId = trasactionId;
             _database.TblOrderPayment.Add(payment);
-            if (payment.Domain == "Food")
+            if (domain == Domain.Food.ToString())
             {
-                (await _database.TblFoodOrder.FirstOrDefaultAsync(x => x.Id == payment.OrderId)).Status =
+                (await _database.TblFoodOrder.FirstOrDefaultAsync(x => x.Id == orderId)).Status =
                     OrderStatus.PaymentSuccessful.ToString();
             }
-            else if (payment.Domain == "Table")
+            else if (domain == Domain.Table.ToString())
             {
-                (await _database.TblTableBooking.FirstOrDefaultAsync(x => x.Id == payment.OrderId)).Status =
+                (await _database.TblTableBooking.FirstOrDefaultAsync(x => x.Id == orderId)).Status =
                     OrderStatus.PaymentSuccessful.ToString();
             }
 
@@ -71,5 +86,7 @@ namespace OMF.OrderManagementService.Command.Repository
             _database.TblTableBooking.Add(booking);
             return await _database.SaveChangesAsync() > 0 ? booking : null;
         }
+
+        
     }
 }

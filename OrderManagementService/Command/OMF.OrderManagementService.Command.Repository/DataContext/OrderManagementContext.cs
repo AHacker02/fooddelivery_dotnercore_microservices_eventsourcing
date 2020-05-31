@@ -4,18 +4,11 @@ namespace OMF.OrderManagementService.Command.Repository.DataContext
 {
     public partial class OrderManagementContext:DbContext
     {
-        private readonly string _connectionString;
-
-       public OrderManagementContext(string connectionString)
+        public OrderManagementContext(DbContextOptions<OrderManagementContext> context) : base(context)
         {
-            _connectionString = connectionString;
+
         }
         
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer(_connectionString);
-        }
 
         public virtual DbSet<TblFoodOrder> TblFoodOrder { get; set; }
         public virtual DbSet<TblFoodOrderItem> TblFoodOrderItem { get; set; }
@@ -109,7 +102,6 @@ namespace OMF.OrderManagementService.Command.Repository.DataContext
 
                 entity.Property(e => e.TblCustomerId).HasColumnName("tblCustomerID");
 
-                entity.Property(e => e.OrderId).HasColumnName("OrderID");
 
                 entity.Property(e => e.PaymentStatus).HasColumnName("PaymentStatus");
 

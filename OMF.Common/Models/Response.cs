@@ -2,6 +2,10 @@
 {
     public class Response
     {
+        public Response()
+        {
+            
+        }
         public Response(int code, string message)
         {
             Code = code;

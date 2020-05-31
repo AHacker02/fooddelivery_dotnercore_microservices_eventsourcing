@@ -23,5 +23,13 @@
     <ProjectReference Include="..\OMF.CustomerManagementService.Query.Service\OMF.CustomerManagementService.Query.Service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="appsettings.Production.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 
 </Project>

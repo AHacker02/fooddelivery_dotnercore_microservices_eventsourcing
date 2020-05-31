@@ -24,7 +24,7 @@ namespace OMF.RestaurantService.Command.Service.EventHandlers
         {
             try
             {
-                await _restaurantRepository.UpdateRating(@event.RestaurantId, @event.Rating);
+                await _restaurantRepository.UpdateRatingAsync(@event.RestaurantId, Convert.ToDecimal(@event.Rating));
             }
             catch (Exception ex)
             {

@@ -26,6 +26,8 @@ namespace OMF.OrderManagementService.Command
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRabbitMq(Configuration);
+            services.AddDbContext<OrderManagementContext>(options =>
+                options.UseSqlServer(Configuration["ConnectionString:SqlServer"]));
             base.ConfigureApplicationServices(services, new OpenApiInfo
             {
                 Version = "v1",
@@ -48,10 +50,7 @@ namespace OMF.OrderManagementService.Command
             var context = container.Resolve<OrderManagementContext>();
             context.Database.EnsureCreated();
             var eventBus = container.Resolve<IEventBus>();
-            eventBus.SubscribeCommand<CancelOrderCommand>();
-            eventBus.SubscribeCommand<OrderCommand>();
-            eventBus.SubscribeCommand<PaymentCommand>();
-
+           
             eventBus.SubscribeEvent<OrderReadyEvent>();
             eventBus.SubscribeEvent<PaymentInitiatedEvent>();
         }

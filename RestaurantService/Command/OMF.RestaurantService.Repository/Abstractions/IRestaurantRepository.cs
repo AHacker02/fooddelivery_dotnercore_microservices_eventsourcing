@@ -8,10 +8,10 @@ namespace OMF.RestaurantService.Repository.Abstractions
 {
     public interface IRestaurantRepository
     {
-        Task AddRestaurantsAsync(IEnumerable<Restaurant> restaurants);
-        Task<IEnumerable<Restaurant>> GetAllRestaurantsAsync();
-        Task UpdateStock(List<TblMenu> orderItems);
-        Task UpdateRating(int restaurantId, string rating);
+        Task AddRestaurantsAsync(IEnumerable<TblRestaurant> restaurants);
+        Task<int> UpdateStockAsync(int menuId,int quantity);
+        Task<bool> UpdateRatingAsync(int restaurantId, decimal? rating);
 
+        Task<bool> UpdatePriceAsync(int menuId, decimal price);
     }
 }

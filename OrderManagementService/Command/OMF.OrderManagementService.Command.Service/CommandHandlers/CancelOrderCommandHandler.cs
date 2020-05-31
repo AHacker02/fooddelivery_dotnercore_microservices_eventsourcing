@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
+using MediatR;
 using OMF.Common.Enums;
 using OMF.Common.Events;
 using OMF.Common.Helpers;
+using OMF.Common.Models;
 using OMF.OrderManagementService.Command.Repository.Abstractions;
+using OMF.OrderManagementService.Command.Repository.DataContext;
 using OMF.OrderManagementService.Command.Service.Commands;
 using ServiceBus.Abstractions;
 
 namespace OMF.OrderManagementService.Command.Service.CommandHandlers
 {
-    public class CancelOrderCommandHandler : ICommandHandler<CancelOrderCommand>
+    public class CancelOrderCommandHandler : IRequestHandler<CancelOrderCommand,Response>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IEventBus _bus;
@@ -20,33 +24,29 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
             _bus = bus;
         }
 
-        public async Task HandleAsync(CancelOrderCommand command)
+        public async Task<Response> Handle(CancelOrderCommand request, CancellationToken cancellationToken)
         {
-            try
+            dynamic order = null;
+            if (request.Domain == Domain.Food.ToString())
             {
-                //var order = await _orderRepository.GetOrder<>(command.Id);
-                //if (order.UserId != command.UserId)
-                //{
-                //    await _bus.PublishEvent(new ExceptionEvent("user_unauthorized",
-                //        "User is not authorized to cancel the order", command));
-                //}
-
-                //if ((OrderStatus)Enum.Parse(typeof(OrderStatus), order.Status, true) <= OrderStatus.PaymentSuccessful)
-                //{
-                //    order.Status = OrderStatus.Cancelled.ToString();
-                //    await _orderRepository.UpdateOrder(order);
-                //}
-                //else
-                //{
-                //    await _bus.PublishEvent(new ExceptionEvent("cancellation_denied",
-                //        "Order cannot be cancelled", command));
-                //}
-
+                order= await _orderRepository.GetDetails<TblFoodOrder>(request.OrderId);
+                
             }
-            catch (Exception ex)
+            else if (request.Domain == Domain.Table.ToString())
             {
-                await _bus.PublishEvent(new ExceptionEvent("system_exception", $"Message: {ex.Message} Stacktrace: {ex.StackTrace}", command));
+                order = await _orderRepository.GetDetails<TblFoodOrder>(request.OrderId);
             }
+
+            if(order==null)
+                return new Response(400,"Order not found");
+
+            var payment = (TblOrderPayment) await _orderRepository.GetDetails<TblOrderPayment>(order.PaymentId);
+            order.Status = OrderStatus.Cancelled.ToString();
+            payment.PaymentStatus = PaymentStatus.Refund.ToString();
+            await _orderRepository.UpdateDetails(order);
+            await _orderRepository.UpdateDetails(payment);
+            return new Response(200,"Payment refund successful");
         }
+
     }
 }

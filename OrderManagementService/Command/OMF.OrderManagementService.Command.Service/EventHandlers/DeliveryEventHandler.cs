@@ -24,7 +24,7 @@ namespace OMF.OrderManagementService.Command.Service.EventHandlers
             //{
             //    var order = await _orderRepository.GetOrder(@event.Id);
             //    order.Status = OrderStatus.Delivered.ToString();
-            //    await _orderRepository.UpdateOrder(order);
+            //    await _orderRepository.UpdateDetails(order);
             //}
             //catch (Exception ex)
             //{

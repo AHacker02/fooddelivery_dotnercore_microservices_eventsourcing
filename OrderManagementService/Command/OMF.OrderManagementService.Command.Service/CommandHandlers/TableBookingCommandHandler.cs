@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using MediatR;
 using OMF.Common.Enums;
 using OMF.Common.Events;
+using OMF.Common.Models;
 using OMF.OrderManagementService.Command.Repository.Abstractions;
 using OMF.OrderManagementService.Command.Repository.DataContext;
 using OMF.OrderManagementService.Command.Service.Commands;
@@ -13,7 +17,7 @@ using ServiceBus.Abstractions;
 
 namespace OMF.OrderManagementService.Command.Service.CommandHandlers
 {
-    public class TableBookingCommandHandler : ICommandHandler<TableBookingCommand>
+    public class TableBookingCommandHandler : IRequestHandler<TableBookingCommand, Response>,IRequestHandler<BookingUpdateCommand,Response>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _map;
@@ -26,23 +30,43 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
             _bus = bus;
         }
 
-        public async Task HandleAsync(TableBookingCommand command)
+        public async Task<Response> Handle(TableBookingCommand command, CancellationToken cancellationToken)
         {
-            try
-            {
+            
                 var booking = _map.Map<TblTableBooking>(command);
 
                 booking.Status = OrderStatus.PaymentPending.ToString();
-                //if(await _orderRepository.CheckAvailibility(command.))
+                Restaurant restaurant = null;
+                if (_orderRepository.CheckAvailibility(command.RestaurantId, command.FromDate, command.ToDate,ref restaurant))
+                {
+                    booking.TblTableDetail.Add(new TblTableDetail()
+                    {
+                        TableNo = (int)Math.Ceiling(Convert.ToDecimal(command.MemberCount)/Convert.ToDecimal(restaurant.RestaurantDetails.FirstOrDefault().TableCapacity))
+                    });
+                    booking = await _orderRepository.CreateBooking(booking);
+                    await _bus.PublishEvent(new PaymentInitiatedEvent(booking.Id, "Table"));
+
+                    return new Response(200, $"Table booking successful. Booking Id: {booking.Id} ");
+                }
+                return new Response(400,"Booking unavailable");
                 
-                await _orderRepository.CreateBooking(booking);
-                await _bus.PublishEvent(new PaymentInitiatedEvent(command.Id, booking.Id, "Table"));
-            }
-            catch (Exception ex)
+                
+           
+        }
+
+        public async Task<Response> Handle(BookingUpdateCommand request, CancellationToken cancellationToken)
+        {
+            var booking = await _orderRepository.GetDetails<TblTableBooking>(request.BookingId);
+            Restaurant restaurant = null;
+            if (_orderRepository.CheckAvailibility(booking.TblRestaurantId, request.FromDate, request.ToDate,
+                ref restaurant))
             {
-                await _bus.PublishEvent(new ExceptionEvent("system_exception",
-                    $"Message: {ex.Message} Stacktrace: {ex.StackTrace}", command));
+                booking.TblTableDetail.FirstOrDefault().TableNo = (int)Math.Ceiling(Convert.ToDecimal(request.MemberCount) / Convert.ToDecimal(restaurant.RestaurantDetails.FirstOrDefault().TableCapacity));
+                booking.FromDate = request.FromDate;
+                booking.ToDate = request.ToDate;
             }
+
+            return new Response(200, $"Table booking successful. Booking Id: {booking.Id} ");
         }
     }
 }

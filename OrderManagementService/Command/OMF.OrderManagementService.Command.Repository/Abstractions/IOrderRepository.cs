@@ -8,10 +8,11 @@ namespace OMF.OrderManagementService.Command.Repository.Abstractions
     public interface IOrderRepository
     {
         Task<TblFoodOrder> CreateOrder(TblFoodOrder order);
-        Task<T> GetDetails<T>(int id) where T : class, IPaymentEntity;
-        Task UpdateOrder<T>(T order) where T : class, IPaymentEntity;
-        Task<Guid> CreatePayment(TblOrderPayment payment);
+        Task<T> GetDetails<T>(int id) where T : class, IEntity;
+        Task UpdateDetails<T>(T order) where T : class, IEntity;
+        Task<Guid> CreatePayment(TblOrderPayment payment, string domain, int orderId);
         Task<TblTableBooking> CreateBooking(TblTableBooking booking);
         Task<TblFoodOrder> UpdateOrder(TblFoodOrder order);
+        bool CheckAvailibility(int restaurantId, DateTime fromDate, DateTime toDate,ref Restaurant restaurant);
     }
 }

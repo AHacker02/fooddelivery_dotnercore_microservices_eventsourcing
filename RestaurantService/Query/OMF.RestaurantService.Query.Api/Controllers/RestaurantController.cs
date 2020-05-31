@@ -2,6 +2,7 @@
 using BaseService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using OMF.RestaurantService.Query.Service.Abstractions;
 
 namespace OMF.RestaurantService.Query.Controllers
@@ -12,7 +13,7 @@ namespace OMF.RestaurantService.Query.Controllers
     {
         private readonly ISearchService _searchService;
 
-        public RestaurantController(ISearchService searchService)
+        public RestaurantController(ISearchService searchService,IConfiguration configuration):base(configuration)
         {
             _searchService = searchService;
         }

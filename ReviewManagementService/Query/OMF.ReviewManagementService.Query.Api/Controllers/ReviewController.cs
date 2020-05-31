@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using BaseService;
+using Microsoft.Extensions.Configuration;
 using OMF.ReviewManagementService.Query.Service.Abstractions;
 
 namespace OMF.ReviewManagementService.Query.Controllers
@@ -13,7 +14,7 @@ namespace OMF.ReviewManagementService.Query.Controllers
     {
         private readonly IReviewService _reviewService;
 
-        public ReviewController(IReviewService reviewService)
+        public ReviewController(IReviewService reviewService,IConfiguration configuration):base(configuration)
         {
             _reviewService = reviewService;
         }

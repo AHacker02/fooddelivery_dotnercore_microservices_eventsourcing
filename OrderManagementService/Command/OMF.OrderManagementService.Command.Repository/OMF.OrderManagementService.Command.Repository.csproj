@@ -9,7 +9,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\Infrastructure\DataAccess\DataAccess.csproj" />
       <ProjectReference Include="..\..\..\OMF.Common\OMF.Common.csproj" />
     </ItemGroup>
 

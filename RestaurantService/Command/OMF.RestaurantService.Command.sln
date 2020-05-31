@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.Common", "..\..\OMF.Com
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.RestaurantService.Command.Service", "OMF.RestaurantService.Command.Service\OMF.RestaurantService.Command.Service.csproj", "{9C796D14-254E-44D4-A10B-F31C09C890F3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.RestaurantService.Repository", "OMF.RestaurantService.Repository\OMF.RestaurantService.Repository.csproj", "{741570DC-0C83-4372-8CFB-1E3C647E4EAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.RestaurantService.Command.Repository", "OMF.RestaurantService.Repository\OMF.RestaurantService.Command.Repository.csproj", "{741570DC-0C83-4372-8CFB-1E3C647E4EAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

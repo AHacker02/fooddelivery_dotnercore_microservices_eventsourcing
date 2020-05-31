@@ -25,6 +25,8 @@ namespace OMF.OrderManagementService.Command.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("ID")
                         .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address")
@@ -42,6 +44,9 @@ namespace OMF.OrderManagementService.Command.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("((0))");
+
+                    b.Property<int>("PaymentId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .HasColumnName("Status")
@@ -70,6 +75,8 @@ namespace OMF.OrderManagementService.Command.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("ID")
                         .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<DateTime>("CreatedDate")
@@ -121,17 +128,10 @@ namespace OMF.OrderManagementService.Command.Repository.Migrations
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("((0))");
 
-                    b.Property<string>("Domain")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("ModifiedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("((0))");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnName("OrderID")
-                        .HasColumnType("int");
 
                     b.Property<string>("PaymentStatus")
                         .HasColumnName("PaymentStatus")
@@ -151,12 +151,6 @@ namespace OMF.OrderManagementService.Command.Repository.Migrations
                         .HasColumnName("tblCustomerID")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TblFoodOrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("TblTableBookingId1")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("TransactionAmount")
                         .HasColumnType("decimal(18,2)");
 
@@ -165,12 +159,6 @@ namespace OMF.OrderManagementService.Command.Repository.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.HasIndex("TblFoodOrderId");
-
-                    b.HasIndex("TblTableBookingId1");
 
                     b.ToTable("tblOrderPayment");
                 });
@@ -197,6 +185,9 @@ namespace OMF.OrderManagementService.Command.Repository.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime")
                         .HasDefaultValueSql("((0))");
+
+                    b.Property<int>("PaymentId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .HasColumnName("BookingStatus")
@@ -271,32 +262,8 @@ namespace OMF.OrderManagementService.Command.Repository.Migrations
                     b.HasOne("OMF.OrderManagementService.Command.Repository.DataContext.TblFoodOrder", "TblFoodOrder")
                         .WithMany("TblFoodOrderItem")
                         .HasForeignKey("TblFoodOrderId")
-                        .HasConstraintName("FK_tblFoodOrderMapping_tblFoodOrderID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("OMF.OrderManagementService.Command.Repository.DataContext.TblOrderPayment", b =>
-                {
-                    b.HasOne("OMF.OrderManagementService.Command.Repository.DataContext.TblFoodOrder", "TblFoodOrder")
-                        .WithMany("TblOrderPayment")
-                        .HasForeignKey("OrderId")
-                        .HasConstraintName("FK_tblOrderPayment_tblFoodOrderID")
-                        .IsRequired();
-
-                    b.HasOne("OMF.OrderManagementService.Command.Repository.DataContext.TblTableBooking", "TblTableBooking")
-                        .WithMany("TblOrderPayment")
-                        .HasForeignKey("OrderId")
-                        .HasConstraintName("FK_tblOrderPayment_tblTableBookingID")
-                        .IsRequired();
-
-                    b.HasOne("OMF.OrderManagementService.Command.Repository.DataContext.TblFoodOrder", null)
-                        .WithMany("TblOrderPayments")
-                        .HasForeignKey("TblFoodOrderId");
-
-                    b.HasOne("OMF.OrderManagementService.Command.Repository.DataContext.TblTableBooking", null)
-                        .WithMany("TblOrderPayments")
-                        .HasForeignKey("TblTableBookingId1");
                 });
 
             modelBuilder.Entity("OMF.OrderManagementService.Command.Repository.DataContext.TblTableDetail", b =>

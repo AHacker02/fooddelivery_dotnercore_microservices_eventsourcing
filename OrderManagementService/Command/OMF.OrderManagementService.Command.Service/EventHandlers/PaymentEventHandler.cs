@@ -86,12 +86,12 @@ namespace OMF.OrderManagementService.Command.Service.EventHandlers
             if (order.Status == OrderStatus.PaymentSuccessful.ToString())
             {
                 order.Status = OrderStatus.OrderPlaced.ToString();
-                await _orderRepository.UpdateOrder(order);
+                await _orderRepository.UpdateDetails(order);
             }
             else
             {
                 order.Status = OrderStatus.PaymentFailed.ToString();
-                await _orderRepository.UpdateOrder(order);
+                await _orderRepository.UpdateDetails(order);
             }
         }
     }

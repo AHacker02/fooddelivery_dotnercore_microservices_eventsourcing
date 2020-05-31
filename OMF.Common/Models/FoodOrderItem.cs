@@ -6,6 +6,5 @@ namespace OMF.Common.Models
     {
         public int Quantity { get; set; }
         public int MenuId { get; set; }
-        public decimal Price { get; set; }
     }
 }

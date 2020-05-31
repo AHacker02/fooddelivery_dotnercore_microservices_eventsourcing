@@ -2,6 +2,7 @@
 using BaseService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using OMF.CustomerManagementService.Query.Service.Abstractions;
 
 namespace OMF.CustomerManagementService.Query.Api.Controllers
@@ -12,7 +13,7 @@ namespace OMF.CustomerManagementService.Query.Api.Controllers
     {
         private readonly IAuthService _authService;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService,IConfiguration configuration):base(configuration)
         {
             _authService = authService;
         }

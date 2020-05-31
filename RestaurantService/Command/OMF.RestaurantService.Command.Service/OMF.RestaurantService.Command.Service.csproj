@@ -5,12 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="CommandHandlers" />
+      <PackageReference Include="MediatR" Version="8.0.1" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\OMF.Common\OMF.Common.csproj" />
-      <ProjectReference Include="..\OMF.RestaurantService.Repository\OMF.RestaurantService.Repository.csproj" />
+      <ProjectReference Include="..\OMF.RestaurantService.Repository\OMF.RestaurantService.Command.Repository.csproj" />
     </ItemGroup>
 
 </Project>

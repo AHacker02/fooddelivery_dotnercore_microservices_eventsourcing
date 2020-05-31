@@ -5,7 +5,7 @@ using OMF.OrderManagementService.Command.Repository.Abstractions;
 
 namespace OMF.OrderManagementService.Command.Repository.DataContext
 {
-    public class TblTableBooking:IPaymentEntity
+    public class TblTableBooking:IEntity
     {
         public TblTableBooking()
         {
@@ -17,9 +17,11 @@ namespace OMF.OrderManagementService.Command.Repository.DataContext
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
         public string Status { get; set; }
+        public int  PaymentId { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public virtual ICollection<TblTableDetail> TblTableDetail { get; set; }
+
        
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using MediatR;
 using OMF.Common.Events;
 using OMF.Common.Helpers;
 using OMF.Common.Models;
@@ -12,35 +14,30 @@ using ServiceBus.Abstractions;
 
 namespace OMF.OrderManagementService.Command.Service.CommandHandlers
 {
-    public class PaymentCommandHandler:ICommandHandler<PaymentCommand>
+    public class PaymentCommandHandler : IRequestHandler<PaymentCommand, Response>
     {
         private readonly IOrderRepository _orderRepository;
         private readonly IMapper _map;
         private readonly IEventBus _bus;
 
-        public PaymentCommandHandler(IOrderRepository orderRepository,IMapper map,IEventBus bus)
+        public PaymentCommandHandler(IOrderRepository orderRepository, IMapper map, IEventBus bus)
         {
             _orderRepository = orderRepository;
             _map = map;
             _bus = bus;
         }
-        public async Task HandleAsync(PaymentCommand command)
+        public async Task<Response> Handle(PaymentCommand command, CancellationToken cancellationToken)
         {
-            try
-            {
-                var transactionId=await _orderRepository.CreatePayment(_map.Map<TblOrderPayment>(command));
+            var transactionId = await _orderRepository.CreatePayment(_map.Map<TblOrderPayment>(command),command.Domain,command.OrderId);
 
-                if (transactionId != default && command.Domain=="Food")
-                {
-                    var order = await _orderRepository.GetDetails<TblFoodOrder>(command.OrderId);
-                    await _bus.PublishEvent(new UpdateStockEvent(command.Id,order.TblRestaurantId,_map.Map<IEnumerable<FoodOrderItem>>(order.TblFoodOrderItem)));
-                }
-            }
-            catch (Exception ex)
+            if (command.Domain == "Food")
             {
-                await _bus.PublishEvent(new ExceptionEvent("system_exception",
-                    $"Message: {ex.Message} Stacktrace: {ex.StackTrace}", command));
+                var order = await _orderRepository.GetDetails<TblFoodOrder>(command.OrderId);
+                await _bus.PublishEvent(new UpdateStockEvent(order.TblRestaurantId, _map.Map<IEnumerable<FoodOrderItem>>(order.TblFoodOrderItem)));
             }
+
+            return new Response(200,$"Transaction was successful. Transaction Id: {transactionId}");
+
         }
     }
 }

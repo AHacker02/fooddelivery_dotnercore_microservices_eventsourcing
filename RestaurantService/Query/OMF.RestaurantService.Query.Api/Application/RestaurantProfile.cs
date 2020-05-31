@@ -20,8 +20,10 @@ namespace OMF.RestaurantService.Query.Application
             CreateMap<TblLocation, Location>().ReverseMap();
             CreateMap<TblRestaurantDetails, RestaurantDetails>().ReverseMap();
             CreateMap<TblOffer, Offer>()
-                .ForMember(x=>x.ItemId,opt=>opt.MapFrom(d=>d.TblMenu.Id))
-                .ForMember(x=>x.Item,opt=>opt.MapFrom(d=>d.TblMenu.Item));
+                .ForMember(x => x.ItemId, opt => opt.MapFrom(d => d.TblMenu.Id))
+                .ForMember(x => x.Quantity, opt => opt.MapFrom(d => d.TblMenu.Quantity))
+                .ForMember(x => x.Item, opt => opt.MapFrom(d => d.TblMenu.Item))
+                .ForMember(x => x.Cuisine, opt => opt.MapFrom(d => d.TblMenu.TblCuisine.Cuisine));
         }
     }
 }

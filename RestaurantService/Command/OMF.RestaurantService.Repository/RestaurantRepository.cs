@@ -2,44 +2,55 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DataAccess.Abstractions;
-using DataAccess.MongoDb;
 using OMF.Common.Models;
+using OMF.RestaurantService.Query.Repository.DataContext;
 using OMF.RestaurantService.Repository.Abstractions;
 
 namespace OMF.RestaurantService.Repository
 {
     public class RestaurantRepository : IRestaurantRepository
     {
-        private INoSqlDataAccess _database;
+        private readonly RestaurantManagementContext _database;
 
-        public RestaurantRepository(IConnectionFactory connection)
+
+        public RestaurantRepository(RestaurantManagementContext database)
         {
-            _database = new MongoDbDataAccess(connection, "Restaurants");
+            _database = database;
         }
-        public async Task AddRestaurantsAsync(IEnumerable<Restaurant> restaurants)
+        public async Task AddRestaurantsAsync(IEnumerable<TblRestaurant> restaurants)
             => await _database.AddRangeAsync(restaurants);
-
-
-        public async Task<IEnumerable<Restaurant>> GetAllRestaurantsAsync()
-            => (await _database.All<Restaurant>()).AsEnumerable();
-
-        public async Task UpdateStock(List<Item> orderItems)
+        
+        public async Task<int> UpdateStockAsync(int menuId, int quantity)
         {
-            var restaurant = await _database.Single<Restaurant>(x
-                => x.Menu.Any(m => m.Id == orderItems.FirstOrDefault().FoodId));
-            foreach (var item in orderItems)
-            {
-                restaurant.Menu.FirstOrDefault(x => x.Id == item.FoodId).Quantity -= item.Quantity;
-            }
 
-            await _database.Delete<Restaurant>(x => x.Id == restaurant.Id);
-            await _database.Add(restaurant);
+            var item = _database.TblMenu.FirstOrDefault(x => x.Id == menuId);
+            item.Quantity -= quantity;
+            
+            await _database.SaveChangesAsync();
+            return item.Quantity;
         }
 
-        public async Task UpdateRating(Guid restaurantId, string rating)
+        public async Task<bool> UpdateRatingAsync(int restaurantId, decimal? rating)
         {
+            var item = _database.TblRestaurant.FirstOrDefault(x => x.Id == restaurantId);
 
+            if (item == null)
+                return false;
+
+            item.Rating = rating;
+            
+            return await _database.SaveChangesAsync()>0;
+        }
+
+        public async Task<bool> UpdatePriceAsync(int menuId, decimal price)
+        {
+            var item = _database.TblOffer.FirstOrDefault(x => x.TblMenuId == menuId);
+
+            if (item == null)
+                return false;
+
+            item.Price = price;
+            return await _database.SaveChangesAsync()>0;
         }
     }
 }

@@ -5,7 +5,7 @@ namespace OMF.OrderManagementService.Command.Service.Events
 {
     public class PaymentInitiatedEvent : Event
     {
-        public PaymentInitiatedEvent(Guid id,int orderId,string domain) : base(id)
+        public PaymentInitiatedEvent(int orderId,string domain)
         {
             OrderId = orderId;
             Domain = domain;

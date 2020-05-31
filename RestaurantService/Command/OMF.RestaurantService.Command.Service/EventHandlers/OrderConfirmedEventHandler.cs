@@ -21,10 +21,15 @@ namespace OMF.RestaurantService.Command.Service.EventHandlers
         {
             try
             {
-                await _restaurantRepository.UpdateStock(@event.OrderItems);
-                var restaurant = (await _restaurantRepository.GetAllRestaurantsAsync()).FirstOrDefault(x => x.Id == @event.RestaurantId);
-
-                await _bus.PublishEvent(new OrderReadyEvent(restaurant.Address, @event.Address, @event.Id));
+                foreach (var item in @event.OrderItems)
+                {
+                   var remainingStock= await _restaurantRepository.UpdateStockAsync(item.MenuId,item.Quantity);
+                   if (remainingStock == 0)
+                   {
+                       await _bus.PublishEvent(new ItemOutOfStockEvent(item.MenuId));
+                   }
+                }
+                
             }
             catch (Exception ex)
             {

@@ -4,6 +4,7 @@
     {
         PaymentSuccessful,
         PaymentFailed,
-        PaymentCancelled
+        PaymentCancelled,
+        Refund
     }
 }

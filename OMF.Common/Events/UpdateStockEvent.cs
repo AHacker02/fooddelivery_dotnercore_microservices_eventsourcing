@@ -11,7 +11,7 @@ namespace OMF.Common.Events
         public int RestaurantId { get; }
         public IEnumerable<FoodOrderItem> OrderItems { get; }
 
-        public UpdateStockEvent(Guid Id, int restaurantId, IEnumerable<FoodOrderItem> orderItems):base(Id)
+        public UpdateStockEvent(int restaurantId, IEnumerable<FoodOrderItem> orderItems)
         {
             RestaurantId = restaurantId;
             OrderItems = orderItems;

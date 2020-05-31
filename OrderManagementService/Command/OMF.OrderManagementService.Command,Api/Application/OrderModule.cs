@@ -1,6 +1,10 @@
 ﻿using Autofac;
+using MediatR;
 using Microsoft.Extensions.Configuration;
+using OMF.Common.Abstractions;
 using OMF.Common.Events;
+using OMF.Common.Helpers;
+using OMF.Common.Models;
 using OMF.OrderManagementService.Command.Repository;
 using OMF.OrderManagementService.Command.Repository.Abstractions;
 using OMF.OrderManagementService.Command.Repository.DataContext;
@@ -23,12 +27,13 @@ namespace OMF.OrderManagementService.Command.Application
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<OrderRepository>().As<IOrderRepository>();
-            builder.RegisterType<OrderCommandHandler>().As<ICommandHandler<OrderCommand>>();
-            builder.RegisterType<PaymentCommandHandler>().As<ICommandHandler<PaymentCommand>>();
-            builder.RegisterType<CancelOrderCommandHandler>().As<ICommandHandler<CancelOrderCommand>>();
+            builder.RegisterType<HttpWrapper>().As<IHttpWrapper>();
+            builder.RegisterType<OrderCommandHandler>().AsImplementedInterfaces();
+            builder.RegisterType<PaymentCommandHandler>().AsImplementedInterfaces();
+            builder.RegisterType<CancelOrderCommandHandler>().AsImplementedInterfaces();
+            builder.RegisterType<TableBookingCommandHandler>().AsImplementedInterfaces();
             builder.RegisterType<DeliveryEventHandler>().As<IEventHandler<OrderReadyEvent>>();
             builder.RegisterType<PaymentEventHandler>().As<IEventHandler<PaymentInitiatedEvent>>();
-            builder.Register(c => new OrderManagementContext(_configuration["ConnectionString:SqlServer"]));
         }
     }
 }

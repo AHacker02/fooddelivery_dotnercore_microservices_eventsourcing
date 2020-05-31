@@ -5,6 +5,7 @@ using BaseService;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using OMF.CustomerManagementService.Command.Service.Command;
 using ServiceBus.Abstractions;
 
@@ -17,7 +18,7 @@ namespace OMF.CustomerManagementService.Command.Api.Controllers
         private readonly IMediator _service;
 
 
-        public AuthController(IMediator service)
+        public AuthController(IMediator service,IConfiguration configuration ):base(configuration)
         {
             _service = service;
         }
@@ -59,7 +60,7 @@ namespace OMF.CustomerManagementService.Command.Api.Controllers
         /// </summary>
         /// <param name="command"></param>
         /// <returns></returns>
-        [HttpPut("updatedetails")]
+        [HttpPut("update")]
         public async Task<IActionResult> Update(UpdateUserCommand command)
         {
             if (!ModelState.IsValid)

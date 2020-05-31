@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Infrastructure\BaseService\BaseService.csproj" />
-    <ProjectReference Include="..\..\..\Infrastructure\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\..\..\Infrastructure\ServiceBus\ServiceBus.csproj" />
     <ProjectReference Include="..\..\..\OMF.Common\OMF.Common.csproj" />
     <ProjectReference Include="..\OMF.ReviewManagementService.Command.Service\OMF.ReviewManagementService.Command.Service.csproj" />
@@ -34,6 +33,11 @@
   <ItemGroup>
     <Content Update="appsettings.Development.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.Production.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
 

@@ -38,14 +38,17 @@ namespace OMF.RestaurantService.Query.Repository
                           && (budget == null || r.TblOffer.Average(x => x.Price) <= Convert.ToDecimal(budget))
                           && (food == null || r.TblOffer.Any(x => x.TblMenu.Item.ToLower().Contains(food.ToLower()) || food.ToLower().Contains(x.TblMenu.Item.ToLower())))
                           && (cuisine == null || r.TblOffer.Any(x => x.TblMenu.TblCuisine.Cuisine.ToLower().Contains(cuisine.ToLower()) || cuisine.Contains(x.TblMenu.TblCuisine.Cuisine.ToLower())))
+                          && (r.Rating == null || r.Rating >= Convert.ToDecimal(rating))
+                          && (r.Budget == null || r.Budget >= Convert.ToDecimal(budget))
                           && ((coordinateX == null && coordinateY == null) ||
                               (r.TblLocation.Distance(Convert.ToDouble(coordinateX), Convert.ToDouble(coordinateY)) <= Convert.ToDouble(distance)))
+                          
+                    orderby r.Rating descending 
                     select r;
                 
 
                 return _map.Map<IEnumerable<Restaurant>>(filteredRestaurant
                     .Include(x => x.TblOffer).ThenInclude(y=>y.TblMenu)
-                    .Include(x => x.TblLocation)
                     .Include(x => x.TblRestaurantDetails));
         }
     }

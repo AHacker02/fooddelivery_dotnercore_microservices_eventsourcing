@@ -13,6 +13,5 @@ namespace OMF.Common.Models
         public string Status { get; set; }
         public Guid UserId { get; set; }
         public string Address { get; set; }
-        public decimal TotalAmmount => OrderItems.Sum(x => x.Quantity * x.Price);
     }
 }
