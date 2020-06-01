@@ -20,7 +20,7 @@ namespace OMF.OrderManagementService.Command.Repository.DataContext
         public int  PaymentId { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
-        public virtual ICollection<TblTableDetail> TblTableDetail { get; set; }
+        public  ICollection<TblTableDetail> TblTableDetail { get; set; }
 
        
     }

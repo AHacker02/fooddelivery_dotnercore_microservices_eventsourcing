@@ -33,7 +33,7 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
             if (command.Domain == "Food")
             {
                 var order = await _orderRepository.GetDetails<TblFoodOrder>(command.OrderId);
-                await _bus.PublishEvent(new UpdateStockEvent(order.TblRestaurantId, _map.Map<IEnumerable<FoodOrderItem>>(order.TblFoodOrderItem)));
+                await _bus.PublishEvent(new OrderConfirmedEvent(order.TblRestaurantId, _map.Map<IEnumerable<FoodOrderItem>>(order.TblFoodOrderItem)));
             }
 
             return new Response(200,$"Transaction was successful. Transaction Id: {transactionId}");

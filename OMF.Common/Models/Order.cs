@@ -6,12 +6,14 @@ namespace OMF.Common.Models
 {
     public class Order
     {
-        public DateTime TimeStamp { get; set; }
-        public Guid Id { get; set; }
-        public Guid RestaurantId { get; set; }
-        public List<FoodOrderItem> OrderItems { get; set; }
-        public string Status { get; set; }
-        public Guid UserId { get; set; }
+        public int Id { get; set; }
+        public int CustomerId { get; set; }
+        public int RestaurantId { get; set; }
         public string Address { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime ModifiedDate { get; set; }
+        public virtual ICollection<FoodOrderItem> OrderItems { get; set; }
+        public string Status { get ; set ; }
+        public int PaymentId { get; set; }
     }
 }

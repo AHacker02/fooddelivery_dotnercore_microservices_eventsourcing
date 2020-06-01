@@ -56,15 +56,17 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
 
         public async Task<Response> Handle(BookingUpdateCommand request, CancellationToken cancellationToken)
         {
-            var booking = await _orderRepository.GetDetails<TblTableBooking>(request.BookingId);
+            var booking = await _orderRepository.GetDetails<TblTableBooking>(request.BookingId,x=>x.TblTableDetail);
             Restaurant restaurant = null;
-            if (_orderRepository.CheckAvailibility(booking.TblRestaurantId, request.FromDate, request.ToDate,
+            if (_orderRepository.CheckAvailibility(booking.TblRestaurantId, request.FromDate??booking.FromDate, request.ToDate??booking.ToDate,
                 ref restaurant))
             {
                 booking.TblTableDetail.FirstOrDefault().TableNo = (int)Math.Ceiling(Convert.ToDecimal(request.MemberCount) / Convert.ToDecimal(restaurant.RestaurantDetails.FirstOrDefault().TableCapacity));
-                booking.FromDate = request.FromDate;
-                booking.ToDate = request.ToDate;
+                booking.FromDate = request.FromDate??booking.FromDate;
+                booking.ToDate = request.ToDate??booking.ToDate;
             }
+
+            await _orderRepository.UpdateDetails(booking);
 
             return new Response(200, $"Table booking successful. Booking Id: {booking.Id} ");
         }

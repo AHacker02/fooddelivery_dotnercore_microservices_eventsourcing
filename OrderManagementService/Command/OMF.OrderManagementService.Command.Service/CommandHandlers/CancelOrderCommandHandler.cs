@@ -34,7 +34,7 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
             }
             else if (request.Domain == Domain.Table.ToString())
             {
-                order = await _orderRepository.GetDetails<TblFoodOrder>(request.OrderId);
+                order = await _orderRepository.GetDetails<TblTableBooking>(request.OrderId);
             }
 
             if(order==null)

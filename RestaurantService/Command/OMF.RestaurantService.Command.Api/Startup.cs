@@ -53,7 +53,6 @@ namespace OMF.RestaurantService.Command
             var eventBus = container.Resolve<IEventBus>();
             eventBus.SubscribeEvent<OrderConfirmedEvent>();
             eventBus.SubscribeEvent<UpdateRestaurantEvent>();
-            eventBus.SubscribeEvent<UpdateStockEvent>();
         }
     }
 }

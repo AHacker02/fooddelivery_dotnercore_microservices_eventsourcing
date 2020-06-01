@@ -30,6 +30,14 @@ namespace OMF.OrderManagementService.Command.Application
                 .ForMember(m => m.TblMenuId, opt => opt.MapFrom(d => d.MenuId))
                 .ReverseMap();
 
+            CreateMap<TableBookingCommand, TblTableBooking>()
+                .ForMember(m => m.TblCustomerId, opt => opt.MapFrom(d => d.CustomerId))
+                .ForMember(m => m.TblRestaurantId, opt => opt.MapFrom(d => d.RestaurantId))
+                .ForMember(m => m.Status, opt => opt.MapFrom(d => OrderStatus.PaymentPending.ToString()))
+                .ForMember(m => m.Id, opt => opt.Ignore())
+                .ForMember(m => m.CreatedDate, opt => opt.MapFrom(d => DateTime.UtcNow))
+                .ForMember(m => m.ModifiedDate, opt => opt.MapFrom(d => DateTime.UtcNow));
+
 
         }
     }

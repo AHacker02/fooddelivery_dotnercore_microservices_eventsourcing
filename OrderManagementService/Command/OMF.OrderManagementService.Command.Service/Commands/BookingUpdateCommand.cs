@@ -11,7 +11,7 @@ namespace OMF.OrderManagementService.Command.Service.Commands
         public int CustomerId { get; set; }
         public int BookingId { get; set; }
         public int MemberCount { get; set; }
-        public DateTime FromDate { get; set; }
-        public DateTime ToDate { get; set; }
+        public DateTime? FromDate { get; set; }
+        public DateTime? ToDate { get; set; }
     }
 }

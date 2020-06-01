@@ -26,14 +26,20 @@ namespace OMF.OrderManagementService.Command.Application
         }
         protected override void Load(ContainerBuilder builder)
         {
+            //register services
             builder.RegisterType<OrderRepository>().As<IOrderRepository>();
             builder.RegisterType<HttpWrapper>().As<IHttpWrapper>();
+
+            //command handler 
             builder.RegisterType<OrderCommandHandler>().AsImplementedInterfaces();
             builder.RegisterType<PaymentCommandHandler>().AsImplementedInterfaces();
             builder.RegisterType<CancelOrderCommandHandler>().AsImplementedInterfaces();
             builder.RegisterType<TableBookingCommandHandler>().AsImplementedInterfaces();
-            builder.RegisterType<DeliveryEventHandler>().As<IEventHandler<OrderReadyEvent>>();
+
+            //event handler
+            builder.RegisterType<ItemOutOfStockEventHandler>().As<IEventHandler<ItemOutOfStockEvent>>();
             builder.RegisterType<PaymentEventHandler>().As<IEventHandler<PaymentInitiatedEvent>>();
+            builder.RegisterType<ItemPriceUpdateEventHandler>().As<IEventHandler<ItemPriceUpdateEvent>>();
         }
     }
 }

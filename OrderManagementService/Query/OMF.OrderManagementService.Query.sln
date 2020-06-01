@@ -9,11 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.Common", "..\..\OMF.Com
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseService", "..\..\Infrastructure\BaseService\BaseService.csproj", "{3948F27B-B745-4C19-A6F5-AB267BEEFC83}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "..\..\Infrastructure\DataAccess\DataAccess.csproj", "{086E8F07-0998-4D74-8466-1DC20F4ECC86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.OrderManagementService.Query.Service", "OMF.OrderManagementService.Query.Service\OMF.OrderManagementService.Query.Service.csproj", "{C69C4719-3CFB-4C76-8176-E50E0E0C9ADF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OMF.OrderManagementService.Query.Service", "OMF.OrderManagementService.Query.Service\OMF.OrderManagementService.Query.Service.csproj", "{C69C4719-3CFB-4C76-8176-E50E0E0C9ADF}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OMF.OrderManagementService.Query.Repository", "OMF.OrderManagementService.Query.Repository\OMF.OrderManagementService.Query.Repository.csproj", "{4889AB8B-33A6-44AA-A526-DC49BAC8BC78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OMF.OrderManagementService.Query.Repository", "OMF.OrderManagementService.Query.Repository\OMF.OrderManagementService.Query.Repository.csproj", "{4889AB8B-33A6-44AA-A526-DC49BAC8BC78}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +23,14 @@ Global
 		{3AEE3956-18AB-44F5-9758-9D3AD3871AF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AEE3956-18AB-44F5-9758-9D3AD3871AF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AEE3956-18AB-44F5-9758-9D3AD3871AF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3687C80-7DD1-4CE6-9C4A-EF543BE95979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3687C80-7DD1-4CE6-9C4A-EF543BE95979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3687C80-7DD1-4CE6-9C4A-EF543BE95979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3687C80-7DD1-4CE6-9C4A-EF543BE95979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3948F27B-B745-4C19-A6F5-AB267BEEFC83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3948F27B-B745-4C19-A6F5-AB267BEEFC83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3948F27B-B745-4C19-A6F5-AB267BEEFC83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3948F27B-B745-4C19-A6F5-AB267BEEFC83}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C69C4719-3CFB-4C76-8176-E50E0E0C9ADF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C69C4719-3CFB-4C76-8176-E50E0E0C9ADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C69C4719-3CFB-4C76-8176-E50E0E0C9ADF}.Release|Any CPU.ActiveCfg = Release|Any CPU

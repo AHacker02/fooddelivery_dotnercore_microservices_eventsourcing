@@ -1,12 +1,13 @@
 using Autofac;
 using BaseService;
-using DataAccess.MongoDb;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using OMF.OrderManagementService.Query.Application;
+using OMF.OrderManagementService.Query.Repository.DataContext;
 
 namespace OMF.OrderManagementService.Query
 {
@@ -19,6 +20,8 @@ namespace OMF.OrderManagementService.Query
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<OrderManagementContext>(options =>
+                options.UseSqlServer(Configuration["ConnectionString:SqlServer"]));
             base.ConfigureApplicationServices(services, new OpenApiInfo
             {
                 Version = "v1",
@@ -30,7 +33,6 @@ namespace OMF.OrderManagementService.Query
 
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            builder.RegisterModule(new MongoDbModule(Configuration));
             builder.RegisterModule(new OrderModule());
         }
 

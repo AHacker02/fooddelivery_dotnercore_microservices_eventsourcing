@@ -137,7 +137,7 @@ namespace OMF.OrderManagementService.Command.Repository.DataContext
                     .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.Status)
-                    .HasColumnName("BookingStatus");
+                    .HasColumnName("Status");
 
                 entity.Property(e => e.TblRestaurantId)
                     .HasColumnName("tblRestaurantID")

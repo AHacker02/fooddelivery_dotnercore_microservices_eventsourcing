@@ -54,7 +54,8 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
             }
             foreach (var item in command.OrderItems)
             {
-                if (item.Quantity > restaurant.Offers.FirstOrDefault(x => x.ItemId == item.MenuId).Quantity)
+                if (item.Quantity <= restaurant.Offers.FirstOrDefault(x => x.ItemId == item.MenuId).Quantity)
+                {
                     order.TblFoodOrderItem.Add(new TblFoodOrderItem()
                     {
                         TblFoodOrderId = order.Id,
@@ -63,6 +64,8 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
                         Price = restaurant.Offers.FirstOrDefault(x => x.ItemId == item.MenuId).Price,
                         CreatedDate = DateTime.UtcNow
                     });
+                    continue;
+                }
                 response.Code = 400;
                 response.Message = $"Item: {item.MenuId} out of stock";
                 return response;
@@ -80,8 +83,8 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
         {
             var order = await _orderRepository.GetDetails<TblFoodOrder>(request.OrderId);
 
-            if(order==null)
-                return new Response(400,"Order doesn't exist ");
+            if (order == null)
+                return new Response(400, "Order doesn't exist ");
 
             order.Address = request.Address;
             order.ModifiedDate = DateTime.UtcNow;

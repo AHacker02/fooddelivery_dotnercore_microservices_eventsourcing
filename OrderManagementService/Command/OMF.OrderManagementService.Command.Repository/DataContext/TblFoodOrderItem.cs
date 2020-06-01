@@ -1,8 +1,9 @@
 ﻿using System;
+using OMF.OrderManagementService.Command.Repository.Abstractions;
 
 namespace OMF.OrderManagementService.Command.Repository.DataContext
 {
-    public class TblFoodOrderItem
+    public class TblFoodOrderItem:IEntity
     {
         public int Id { get; set; }
         public int TblFoodOrderId { get; set; }
