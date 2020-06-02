@@ -20,6 +20,8 @@ namespace OMF.CustomerManagementService.Query.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<CustomerManagementContext>(options =>
+                options.UseSqlServer(Configuration["ConnectionString:SqlServer"]));
             base.ConfigureApplicationServices(services, new OpenApiInfo
             {
                 Version = "v1",
