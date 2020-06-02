@@ -10,7 +10,7 @@ namespace OMF.Common.Helpers
     public static class Extensions
     {
         /// <summary>
-        /// Generate Auth token
+        ///     Generate Auth token
         /// </summary>
         /// <param name="user"></param>
         /// <param name="tokenSecret"></param>
@@ -45,25 +45,19 @@ namespace OMF.Common.Helpers
             var destProperties = destination.GetType().GetProperties();
 
             foreach (var src in sourceProperties)
-            {
-                foreach (var dest in destProperties)
+            foreach (var dest in destProperties)
+                try
                 {
-                    try
+                    if (src.GetValue(source) != null && src.Name == dest.Name &&
+                        src.PropertyType == dest.PropertyType)
                     {
-                        if (src.GetValue(source) != null && src.Name == dest.Name &&
-                            src.PropertyType == dest.PropertyType)
-                        {
-                            dest.SetValue(destination, src.GetValue(source));
-                            break;
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-
+                        dest.SetValue(destination, src.GetValue(source));
+                        break;
                     }
                 }
-                
-            }
+                catch (Exception ex)
+                {
+                }
         }
     }
 }

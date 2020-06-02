@@ -6,14 +6,9 @@
     {
         
         private readonly string _connectionString;
-        public CustomerManagementContext(string connectionString):base()
+        public CustomerManagementContext(DbContextOptions<CustomerManagementContext> context) : base(context)
         {
-            _connectionString = connectionString;
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if(!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer(_connectionString);
+
         }
         
         public virtual DbSet<TblCustomer> TblCustomer { get; set; }

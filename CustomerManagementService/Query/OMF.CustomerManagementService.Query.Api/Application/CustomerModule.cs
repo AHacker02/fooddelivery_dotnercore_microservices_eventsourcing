@@ -20,7 +20,6 @@ namespace OMF.CustomerManagementService.Query.Api.Application
         {
             builder.RegisterType<AuthService>().As<IAuthService>();
             builder.RegisterType<AuthRepository>().As<IAuthRepository>();
-            builder.Register(c => new CustomerManagementContext(_configuration["ConnectionString:SqlServer"]));
         }
     }
 }

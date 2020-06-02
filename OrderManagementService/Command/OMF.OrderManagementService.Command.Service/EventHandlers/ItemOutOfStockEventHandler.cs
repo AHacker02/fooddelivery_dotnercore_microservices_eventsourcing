@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using OMF.Common.Events;
 using OMF.OrderManagementService.Command.Repository.Abstractions;
 using ServiceBus.Abstractions;
 
 namespace OMF.OrderManagementService.Command.Service.EventHandlers
 {
-    public class ItemOutOfStockEventHandler:IEventHandler<ItemOutOfStockEvent>
+    public class ItemOutOfStockEventHandler : IEventHandler<ItemOutOfStockEvent>
     {
         private readonly IOrderRepository _orderRepository;
 
@@ -16,6 +13,7 @@ namespace OMF.OrderManagementService.Command.Service.EventHandlers
         {
             _orderRepository = orderRepository;
         }
+
         public async Task HandleAsync(ItemOutOfStockEvent @event)
         {
             await _orderRepository.OrderOutOfStock(@event);

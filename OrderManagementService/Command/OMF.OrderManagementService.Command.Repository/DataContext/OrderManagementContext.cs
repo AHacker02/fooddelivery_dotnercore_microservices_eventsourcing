@@ -2,22 +2,21 @@
 
 namespace OMF.OrderManagementService.Command.Repository.DataContext
 {
-    public partial class OrderManagementContext:DbContext
+    public class OrderManagementContext : DbContext
     {
         public OrderManagementContext(DbContextOptions<OrderManagementContext> context) : base(context)
         {
-
         }
-        
+
 
         public virtual DbSet<TblFoodOrder> TblFoodOrder { get; set; }
         public virtual DbSet<TblFoodOrderItem> TblFoodOrderItem { get; set; }
         public virtual DbSet<TblOrderPayment> TblOrderPayment { get; set; }
         public virtual DbSet<TblTableBooking> TblTableBooking { get; set; }
         public virtual DbSet<TblTableDetail> TblTableDetail { get; set; }
-        
-        
-         protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TblFoodOrder>(entity =>
             {
@@ -47,8 +46,6 @@ namespace OMF.OrderManagementService.Command.Repository.DataContext
                 entity.Property(e => e.TblRestaurantId)
                     .HasColumnName("tblRestaurantID")
                     .HasDefaultValueSql("((0))");
-                
-
             });
 
             modelBuilder.Entity<TblFoodOrderItem>(entity =>
@@ -110,7 +107,6 @@ namespace OMF.OrderManagementService.Command.Repository.DataContext
                 entity.Property(e => e.TransactionId)
                     .IsRequired()
                     .HasColumnName("TransactionID");
-                
             });
 
 
@@ -173,6 +169,5 @@ namespace OMF.OrderManagementService.Command.Repository.DataContext
                     .HasConstraintName("FK_tblTableOrderMapping_tblTableOrderID");
             });
         }
-
     }
 }

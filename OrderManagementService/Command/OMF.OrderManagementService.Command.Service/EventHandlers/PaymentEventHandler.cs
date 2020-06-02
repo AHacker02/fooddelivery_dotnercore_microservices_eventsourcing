@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using OMF.Common.Enums;
 using OMF.Common.Events;
-using OMF.Common.Helpers;
 using OMF.Common.Models;
 using OMF.OrderManagementService.Command.Repository.Abstractions;
 using OMF.OrderManagementService.Command.Repository.DataContext;
@@ -16,28 +15,32 @@ namespace OMF.OrderManagementService.Command.Service.EventHandlers
 {
     public class PaymentEventHandler : IEventHandler<PaymentInitiatedEvent>
     {
-        private readonly IOrderRepository _orderRepository;
         private readonly IEventBus _bus;
         private readonly IMapper _map;
+        private readonly IOrderRepository _orderRepository;
 
-        public PaymentEventHandler(IOrderRepository orderRepository, IEventBus bus,IMapper map)
+        public PaymentEventHandler(IOrderRepository orderRepository, IEventBus bus, IMapper map)
         {
             _orderRepository = orderRepository;
             _bus = bus;
             _map = map;
         }
-
+        
+        
+        /// <summary>
+        /// Event Handler
+        /// To wait for 5min for payment to complete
+        /// </summary>
+        /// <param name="event"></param>
+        /// <returns></returns>
         public async Task HandleAsync(PaymentInitiatedEvent @event)
         {
             try
             {
-
                 if (@event.Domain == "Food")
                     await OrderPaymentProcessing(@event.OrderId, @event.Id);
                 else if (@event.Domain == "Table")
                     await TablePaymentProcessing(@event.OrderId);
-
-
             }
             catch (Exception ex)
             {
@@ -46,23 +49,22 @@ namespace OMF.OrderManagementService.Command.Service.EventHandlers
             }
         }
 
-        private async Task OrderPaymentProcessing(int id,Guid eventId)
+        private async Task OrderPaymentProcessing(int id, Guid eventId)
         {
             var order = await _orderRepository.GetDetails<TblFoodOrder>(id);
 
-            Stopwatch timer = new Stopwatch();
+            var timer = new Stopwatch();
             timer.Start();
             while (order.Status == OrderStatus.PaymentPending.ToString() && timer.ElapsedMilliseconds <= 300000)
-            {
                 order.Status = (await _orderRepository.GetDetails<TblFoodOrder>(order.Id)).Status;
-            }
             timer.Stop();
 
             if (order.Status == OrderStatus.PaymentSuccessful.ToString())
             {
                 order.Status = OrderStatus.OrderPlaced.ToString();
                 await _orderRepository.UpdateOrder(order);
-                await _bus.PublishEvent(new OrderConfirmedEvent(eventId, order.TblRestaurantId, _map.Map<List<FoodOrderItem>>(order.TblFoodOrderItem), order.Address));
+                await _bus.PublishEvent(new OrderConfirmedEvent(order.TblRestaurantId,
+                    _map.Map<List<FoodOrderItem>>(order.TblFoodOrderItem)));
             }
             else
             {
@@ -75,12 +77,10 @@ namespace OMF.OrderManagementService.Command.Service.EventHandlers
         {
             var order = await _orderRepository.GetDetails<TblTableBooking>(id);
 
-            Stopwatch timer = new Stopwatch();
+            var timer = new Stopwatch();
             timer.Start();
             while (order.Status == OrderStatus.PaymentPending.ToString() && timer.ElapsedMilliseconds <= 300000)
-            {
                 order.Status = (await _orderRepository.GetDetails<TblTableBooking>(order.Id)).Status;
-            }
             timer.Stop();
 
             if (order.Status == OrderStatus.PaymentSuccessful.ToString())

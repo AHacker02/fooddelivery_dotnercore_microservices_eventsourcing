@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using MediatR;
+using Newtonsoft.Json;
 using OMF.Common.Models;
 
 namespace OMF.OrderManagementService.Command.Service.Commands
@@ -13,5 +13,4 @@ namespace OMF.OrderManagementService.Command.Service.Commands
         public List<FoodOrderItem> OrderItems { get; set; }
         public bool BookNow { get; set; }
     }
-
 }

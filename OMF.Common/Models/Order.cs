@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OMF.Common.Models
 {
@@ -13,7 +12,7 @@ namespace OMF.Common.Models
         public DateTime CreatedDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public virtual ICollection<FoodOrderItem> OrderItems { get; set; }
-        public string Status { get ; set ; }
+        public string Status { get; set; }
         public int PaymentId { get; set; }
     }
 }

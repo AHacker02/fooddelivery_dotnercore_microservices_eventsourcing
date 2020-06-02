@@ -16,6 +16,9 @@ namespace OMF.OrderManagementService.Command.Application
                 .ForMember(m => m.TblCustomerId, opt => opt.MapFrom(d => d.CustomerId))
                 .ForMember(m => m.TblRestaurantId, opt => opt.MapFrom(d => d.RestaurantId))
                 .ForMember(m => m.Status, opt => opt.MapFrom(d => OrderStatus.Cart.ToString()))
+                .ForMember(m => m.CreatedDate, opt => opt.MapFrom(d => DateTime.UtcNow))
+                .ForMember(m => m.ModifiedDate, opt => opt.MapFrom(d => DateTime.UtcNow))
+
                 .ForMember(m => m.Id, opt => opt.Ignore());
 
             CreateMap<PaymentCommand, TblOrderPayment>()
@@ -37,8 +40,6 @@ namespace OMF.OrderManagementService.Command.Application
                 .ForMember(m => m.Id, opt => opt.Ignore())
                 .ForMember(m => m.CreatedDate, opt => opt.MapFrom(d => DateTime.UtcNow))
                 .ForMember(m => m.ModifiedDate, opt => opt.MapFrom(d => DateTime.UtcNow));
-
-
         }
     }
 }

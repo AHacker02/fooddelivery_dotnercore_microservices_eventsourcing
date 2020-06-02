@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OMF.OrderManagementService.Command.Repository.Abstractions
+﻿namespace OMF.OrderManagementService.Command.Repository.Abstractions
 {
     public interface IEntity
     {

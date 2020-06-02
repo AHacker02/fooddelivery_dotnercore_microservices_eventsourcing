@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OMF.OrderManagementService.Command.Api</name>
+    </assembly>
+    <members>
+        <member name="M:OMF.OrderManagementService.Command.Controllers.OrderController.#ctor(Microsoft.Extensions.Configuration.IConfiguration,MediatR.IMediator)">
+            <summary>
+            Constructor for OrderController
+            </summary>
+            <param name="configuration"></param>
+            <param name="service"></param>
+        </member>
+        <member name="M:OMF.OrderManagementService.Command.Controllers.OrderController.OrderFood(OMF.OrderManagementService.Command.Service.Commands.OrderCommand)">
+            <summary>
+            POST api/order/food
+            To add to cart/order food
+            </summary>
+            <param name="command"></param>
+            <returns>Order Id</returns>
+        </member>
+        <member name="M:OMF.OrderManagementService.Command.Controllers.OrderController.Payment(OMF.OrderManagementService.Command.Service.Commands.PaymentCommand)">
+            <summary>
+            POST api/order/payment
+            To pay for order
+            </summary>
+            <param name="command"></param>
+            <returns>Transaction Id</returns>
+        </member>
+        <member name="M:OMF.OrderManagementService.Command.Controllers.OrderController.Payment(OMF.OrderManagementService.Command.Service.Commands.TableBookingCommand)">
+            <summary>
+            POST api/order/booking
+            To make table booking
+            </summary>
+            <param name="command"></param>
+            <returns>Booking Id</returns>
+        </member>
+        <member name="M:OMF.OrderManagementService.Command.Controllers.OrderController.UpdateOrder(OMF.OrderManagementService.Command.Service.Commands.OrderUpdateCommand)">
+            <summary>
+            PUT api/order/food
+            To update cart/order address
+            </summary>
+            <param name="command"></param>
+            <returns>Status</returns>
+        </member>
+        <member name="M:OMF.OrderManagementService.Command.Controllers.OrderController.UpdateBooking(OMF.OrderManagementService.Command.Service.Commands.BookingUpdateCommand)">
+            <summary>
+            PUT api/order/booking
+            To update table booking
+            </summary>
+            <param name="command"></param>
+            <returns>Status</returns>
+        </member>
+        <member name="M:OMF.OrderManagementService.Command.Controllers.OrderController.CancelOrder(OMF.OrderManagementService.Command.Service.Commands.CancelOrderCommand)">
+            <summary>
+            DELETE api/order/cancel
+            To cancel order
+            </summary>
+            <param name="command"></param>
+            <returns>Refunded ammount</returns>
+        </member>
+    </members>
+</doc>

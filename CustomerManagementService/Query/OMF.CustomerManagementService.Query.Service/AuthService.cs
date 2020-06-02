@@ -22,19 +22,17 @@ namespace OMF.CustomerManagementService.Query.Service
         {
             var user = await _authRepository.Login(email.ToLower(), password);
 
-            if (user != null)
+            if (user == null) return null;
+            
+            user.Password = null;
+            user.PasswordKey = null;
+
+            return new UserAuthToken
             {
-                user.Password = null;
-                user.PasswordKey = null;
+                Token = user.GenerateJwtToken(_configuration.GetSection("Token").Value),
+                User = user
+            };
 
-                return new UserAuthToken
-                {
-                    Token = user.GenerateJwtToken(_configuration.GetSection("Token").Value),
-                    User = user
-                };
-            }
-
-            return null;
         }
     }
 }

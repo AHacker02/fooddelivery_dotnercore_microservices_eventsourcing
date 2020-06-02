@@ -13,7 +13,7 @@ namespace OMF.Common.Models
         public string CloseTime { get; set; }
         public decimal Rating { get; set; }
         public decimal Budget { get; set; }
-        
+
         public Location Location { get; set; }
         public IEnumerable<Offer> Offers { get; set; }
         public IEnumerable<RestaurantDetails> RestaurantDetails { get; set; }

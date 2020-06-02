@@ -17,11 +17,11 @@ namespace OMF.OrderManagementService.Command.Repository
 {
     public class OrderRepository : IOrderRepository
     {
+        private readonly IConfiguration _configuration;
         private readonly OrderManagementContext _database;
         private readonly IHttpWrapper _httpWrapper;
-        private readonly IConfiguration _configuration;
 
-        public OrderRepository(OrderManagementContext database,IHttpWrapper httpWrapper,IConfiguration configuration)
+        public OrderRepository(OrderManagementContext database, IHttpWrapper httpWrapper, IConfiguration configuration)
         {
             _database = database;
             _httpWrapper = httpWrapper;
@@ -30,22 +30,22 @@ namespace OMF.OrderManagementService.Command.Repository
 
         public async Task<TblFoodOrder> CreateOrder(TblFoodOrder order)
         {
-            order.CreatedDate=DateTime.UtcNow;
             _database.TblFoodOrder.Add(order);
-            return await _database.SaveChangesAsync()>0 ? order : null;
+            return await _database.SaveChangesAsync() > 0 ? order : null;
         }
 
         public async Task<TblFoodOrder> UpdateOrder(TblFoodOrder order)
         {
-            var dborder =await _database.TblFoodOrder.FirstOrDefaultAsync(x => x.Id == order.Id);
+            var dborder = await _database.TblFoodOrder.FirstOrDefaultAsync(x => x.Id == order.Id);
             dborder.Copy(order);
             order.ModifiedDate = DateTime.UtcNow;
             return await _database.SaveChangesAsync() > 0 ? order : null;
         }
 
-        public bool CheckAvailibility(int restaurantId, DateTime fromDate, DateTime toDate,ref Restaurant restaurant)
+        public bool CheckAvailibility(int restaurantId, DateTime fromDate, DateTime toDate, ref Restaurant restaurant)
         {
-            var restaurantTask = (_httpWrapper.Get<IEnumerable<Restaurant>>(string.Format(_configuration["RestaurantURL"], restaurantId)));
+            var restaurantTask =
+                _httpWrapper.Get<IEnumerable<Restaurant>>(string.Format(_configuration["RestaurantURL"], restaurantId));
             var bookedTable = _database.TblTableBooking.CountAsync(x => x.FromDate >= fromDate && x.ToDate >= toDate);
             Task.WhenAll(restaurantTask, bookedTable);
             restaurant = restaurantTask.Result.FirstOrDefault();
@@ -65,38 +65,40 @@ namespace OMF.OrderManagementService.Command.Repository
             await _database.SaveChangesAsync();
         }
 
-        public async Task<T> GetDetails<T>(int id, Expression<Func<T, object>> include=null) where T :class, IEntity
-            => Include(_database.Set<T>(),include).FirstOrDefault(x => x.Id == id);
+        public async Task<T> GetDetails<T>(int id, Expression<Func<T, object>> include = null) where T : class, IEntity
+        {
+            return Include(_database.Set<T>(), include).FirstOrDefault(x => x.Id == id);
+        }
 
         public async Task UpdateDetails<T>(T order) where T : class, IEntity
         {
-            var dborder=await _database.Set<T>().FirstOrDefaultAsync(x => x.Id == order.Id);
+            var dborder = await _database.Set<T>().FirstOrDefaultAsync(x => x.Id == order.Id);
             dborder.Copy(order);
             await _database.SaveChangesAsync();
         }
 
         public async Task<Guid> CreatePayment(TblOrderPayment payment, string domain, int orderId)
         {
-            var trasactionId=Guid.NewGuid();
-            payment.TransactionId = trasactionId;
-            _database.TblOrderPayment.Add(payment);
-            _database.SaveChanges();
+            var transactionId = Guid.NewGuid();
+            payment.TransactionId = transactionId;
+            await _database.TblOrderPayment.AddAsync(payment);
+            await _database.SaveChangesAsync();
             if (domain == Domain.Food.ToString())
             {
-                var order=(await _database.TblFoodOrder.FirstOrDefaultAsync(x => x.Id == orderId));
-                    order.Status = OrderStatus.PaymentSuccessful.ToString();
-                    order.PaymentId = payment.Id;
+                var order = await _database.TblFoodOrder.FirstOrDefaultAsync(x => x.Id == orderId);
+                order.Status = OrderStatus.PaymentSuccessful.ToString();
+                order.PaymentId = payment.Id;
             }
             else if (domain == Domain.Table.ToString())
             {
-                var order = (await _database.TblTableBooking.FirstOrDefaultAsync(x => x.Id == orderId));
+                var order = await _database.TblTableBooking.FirstOrDefaultAsync(x => x.Id == orderId);
                 order.Status = OrderStatus.PaymentSuccessful.ToString();
                 order.PaymentId = payment.Id;
             }
 
             await _database.SaveChangesAsync();
 
-            return trasactionId;
+            return transactionId;
         }
 
         public async Task<TblTableBooking> CreateBooking(TblTableBooking booking)
@@ -105,21 +107,44 @@ namespace OMF.OrderManagementService.Command.Repository
             return await _database.SaveChangesAsync() > 0 ? booking : null;
         }
 
-        public IEnumerable<TEntity> Include<TEntity>(DbSet<TEntity> dbSet, Expression<Func<TEntity, object>> include) where TEntity : class
+        public IEnumerable<TEntity> Include<TEntity>(DbSet<TEntity> dbSet, Expression<Func<TEntity, object>> include)
+            where TEntity : class
         {
-            if (include == null)
-            {
-                return dbSet;
-            }
+            if (include == null) return dbSet;
 
             IEnumerable<TEntity> query = null;
-            
+
             query = dbSet.Include(include);
-            
+
 
             return query ?? dbSet;
         }
-
-
+        
+        
+        //Generic methods
+        public async Task<IQueryable<TEntity>> GetAll<TEntity>() where TEntity : class
+            => _database.Set<TEntity>().AsNoTracking();
+ 
+        public async Task<IQueryable<TEntity>> Get<TEntity>(Expression<Func<TEntity, bool>> condition) where TEntity : class
+            => _database.Set<TEntity>().Where(condition).AsNoTracking();
+ 
+        public async Task Create<TEntity>(TEntity entity) where TEntity : class
+        {
+            await _database.Set<TEntity>().AddAsync(entity);
+            await _database.SaveChangesAsync();
+        }
+ 
+        public async Task Update<TEntity>(TEntity entity) where TEntity : class
+        {
+            _database.Set<TEntity>().Update(entity);
+            await _database.SaveChangesAsync();
+        }
+ 
+        public async Task Delete<TEntity>(TEntity entity) where TEntity : class
+        {
+            _database.Set<TEntity>().Remove(entity);
+            await _database.SaveChangesAsync();
+        }
+        
     }
 }
