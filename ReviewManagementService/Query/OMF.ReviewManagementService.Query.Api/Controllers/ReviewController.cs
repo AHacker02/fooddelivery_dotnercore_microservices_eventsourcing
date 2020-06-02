@@ -18,8 +18,13 @@ namespace OMF.ReviewManagementService.Query.Controllers
         {
             _reviewService = reviewService;
         }
+        
 
-
+        /// <summary>
+        /// GET api/Review
+        /// </summary>
+        /// <param name="restaurantId"></param>
+        /// <returns>List of reviews</returns>
         [HttpGet("")]
         public async Task<IActionResult> RestaurantReviews(int restaurantId)
         {

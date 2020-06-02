@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using OMF.CustomerManagementService.Command.Service.Command;
 using ServiceBus.Abstractions;
 
@@ -16,11 +17,13 @@ namespace OMF.CustomerManagementService.Command.Api.Controllers
     public class AuthController : AppControllerBase
     {
         private readonly IMediator _service;
+        private readonly ILogger<AuthController> _logger;
 
 
-        public AuthController(IMediator service,IConfiguration configuration ):base(configuration)
+        public AuthController(IMediator service,IConfiguration configuration,ILogger<AuthController> logger ):base(configuration)
         {
             _service = service;
+            _logger = logger;
         }
 
 
@@ -36,6 +39,8 @@ namespace OMF.CustomerManagementService.Command.Api.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             var result = await _service.Send(command);
+
+            _logger.LogInformation("User: {Email} Status:{Message}", command.Email, result.Message);
             return StatusCode(result.Code,result.Message);
         }
 
@@ -52,6 +57,8 @@ namespace OMF.CustomerManagementService.Command.Api.Controllers
                 return BadRequest(ModelState);
 
             var result = await _service.Send(command);
+
+            _logger.LogInformation("User: {Email} Status:{Message}", command.Email, result.Message);
             return StatusCode(result.Code, result.Message);
         }
 

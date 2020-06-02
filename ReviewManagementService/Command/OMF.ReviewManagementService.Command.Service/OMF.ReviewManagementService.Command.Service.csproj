@@ -5,17 +5,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\..\OMF.Common\OMF.Common.csproj" />
-      <ProjectReference Include="..\OMF.ReviewManagementService.Command.Repository\OMF.ReviewManagementService.Command.Repository.csproj" />
+        <ProjectReference Include="..\..\..\OMF.Common\OMF.Common.csproj"/>
+        <ProjectReference Include="..\OMF.ReviewManagementService.Command.Repository\OMF.ReviewManagementService.Command.Repository.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Event" />
-      <Folder Include="EventHandlers" />
+        <Folder Include="Event"/>
+        <Folder Include="EventHandlers"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="MediatR" Version="8.0.1" />
+        <PackageReference Include="MediatR" Version="8.0.1"/>
+        <PackageReference Include="Serilog.AspNetCore" Version="3.2.0"/>
+        <PackageReference Include="Serilog.Enrichers.Environment" Version="2.1.3"/>
+        <PackageReference Include="Serilog.Sinks.Debug" Version="1.0.1"/>
+        <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="8.1.0"/>
     </ItemGroup>
 
 </Project>

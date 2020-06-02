@@ -3,12 +3,15 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using OMF.Common.Models;
 using OMF.CustomerManagementService.Command.Api.Controllers;
 using OMF.CustomerManagementService.Command.Service.Command;
+using Serilog.Core;
+using ILogger = Serilog.ILogger;
 
 namespace OMF.CustomerManagementService.Test
 {
@@ -18,13 +21,15 @@ namespace OMF.CustomerManagementService.Test
         private AuthController _controller;
         private Mock<IMediator> _mediator;
         private Mock<IConfiguration> _mockConfiguration;
+        private Mock<ILogger<AuthController>> _logger;
 
         public AuthControllerTest()
         {
             _mediator=new Mock<IMediator>();
             _mediator.Setup(x => x.Send(It.IsAny<IRequest<Response>>(),It.IsAny<CancellationToken>())).Returns(Task.FromResult(new Response(200,"response")));
             _mockConfiguration=new Mock<IConfiguration>();
-            _controller= new AuthController(_mediator.Object,_mockConfiguration.Object);
+            _logger = new Mock<ILogger<AuthController>>();
+            _controller= new AuthController(_mediator.Object,_mockConfiguration.Object,_logger.Object);
         }
         
         [Test]

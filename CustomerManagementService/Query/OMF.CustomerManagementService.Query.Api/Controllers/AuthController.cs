@@ -3,7 +3,9 @@ using BaseService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using OMF.CustomerManagementService.Query.Service.Abstractions;
+using Serilog;
 
 namespace OMF.CustomerManagementService.Query.Api.Controllers
 {
@@ -12,10 +14,12 @@ namespace OMF.CustomerManagementService.Query.Api.Controllers
     public class AuthController : AppControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly ILogger<AuthController> _logger;
 
-        public AuthController(IAuthService authService,IConfiguration configuration):base(configuration)
+        public AuthController(IAuthService authService,IConfiguration configuration,ILogger<AuthController> logger):base(configuration)
         {
             _authService = authService;
+            _logger = logger;
         }
 
 
@@ -34,10 +38,14 @@ namespace OMF.CustomerManagementService.Query.Api.Controllers
         {
             if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
                 return BadRequest("The Username or Password is invalid");
+            
 
             var response = await _authService.Login(email, password);
             if (response != null)
+            {
+                _logger.LogInformation("User: {email} logged in.",email);
                 return Ok(response);
+            }
 
             return Unauthorized();
         }

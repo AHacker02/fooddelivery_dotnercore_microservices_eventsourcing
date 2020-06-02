@@ -27,7 +27,7 @@ namespace OMF.CustomerManagementService.Test
             _mapper = new Mapper(configuration);
 
             var options = new DbContextOptionsBuilder<CustomerManagementContext>()
-                .UseInMemoryDatabase(databaseName: "MovieListDatabase")
+                .UseInMemoryDatabase(databaseName: "Database")
                 .Options;
 
             context = new CustomerManagementContext(options);

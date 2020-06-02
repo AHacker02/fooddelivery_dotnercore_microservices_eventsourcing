@@ -30,6 +30,7 @@ namespace OMF.CustomerManagementService.Query.Api
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
+                .UseSerilog()
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
         }
@@ -59,6 +60,7 @@ namespace OMF.CustomerManagementService.Query.Api
             return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"]))
             {
                 AutoRegisterTemplate = true,
+                AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
                 IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
             };
         }
