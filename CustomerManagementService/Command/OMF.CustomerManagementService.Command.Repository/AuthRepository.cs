@@ -3,7 +3,6 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using OMF.Common.Helpers;
 using OMF.CustomerManagementService.Command.Repository.Abstractions;
@@ -13,13 +12,11 @@ namespace OMF.CustomerManagementService.Command.Repository
 {
     public class AuthRepository : IAuthRepository
     {
-        private readonly IMapper _map;
         private readonly CustomerManagementContext _database;
 
-        public AuthRepository(CustomerManagementContext database, IMapper map)
+        public AuthRepository(CustomerManagementContext database)
         {
             _database = database;
-            _map = map;
         }
 
         public async Task<TblCustomer> Register(TblCustomer user, string password)

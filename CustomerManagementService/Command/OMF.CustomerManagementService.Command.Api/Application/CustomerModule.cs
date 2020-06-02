@@ -24,7 +24,6 @@ namespace OMF.CustomerManagementService.Command.Api.Application
         {
             //Service Registrations
             builder.RegisterType<AuthRepository>().As<IAuthRepository>();
-            builder.Register(c => new CustomerManagementContext(_configuration["ConnectionString:SqlServer"]));
 
             //Handler Registrations
             builder.RegisterType<CreateUserCommandHandler>().As<IRequestHandler<CreateUserCommand,Response>>();

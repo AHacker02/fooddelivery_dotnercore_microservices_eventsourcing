@@ -8,7 +8,6 @@ using OMF.Common.Models;
 using OMF.CustomerManagementService.Command.Repository.Abstractions;
 using OMF.CustomerManagementService.Command.Repository.DataContext;
 using OMF.CustomerManagementService.Command.Service.Command;
-using OMF.CustomerManagementService.Command.Service.Event;
 using ServiceBus.Abstractions;
 
 namespace OMF.CustomerManagementService.Command.Service.CommandHandlers

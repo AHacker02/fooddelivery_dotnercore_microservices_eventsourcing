@@ -4,22 +4,14 @@ namespace OMF.CustomerManagementService.Command.Repository.DataContext
 {
     public class CustomerManagementContext : DbContext
     {
-        private readonly string _connectionString;
-
-        public CustomerManagementContext(string connectionString)
+        public CustomerManagementContext(DbContextOptions<CustomerManagementContext> context) : base(context)
         {
-            _connectionString = connectionString;
+
         }
 
         public virtual DbSet<TblCustomer> TblCustomer { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-                optionsBuilder.UseSqlServer(_connectionString);
-        }
-
-
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<TblCustomer>(entity =>
