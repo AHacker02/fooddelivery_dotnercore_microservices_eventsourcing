@@ -61,7 +61,7 @@ namespace OMF.OrderManagementService.Command.Repository
 
         public async Task OrderOutOfStock(ItemOutOfStockEvent @event)
         {
-            await _database.TblFoodOrderItem.Where(x => x.TblMenuId == @event.ItemId).ForEachAsync(x => x.Quantity = 0);
+            await _database.TblFoodOrderItem.Where(x => x.TblMenuId == @event.ItemId && x.TblFoodOrder.PaymentId == 0).ForEachAsync(x => x.Quantity = 0);
             await _database.SaveChangesAsync();
         }
 

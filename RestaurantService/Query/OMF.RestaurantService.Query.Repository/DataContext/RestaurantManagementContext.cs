@@ -19,7 +19,7 @@ namespace OMF.RestaurantService.Query.Repository.DataContext
         //    if(!optionsBuilder.IsConfigured)
         //        optionsBuilder.UseSqlServer(_connectionString);
         //}
-        
+
         public virtual DbSet<TblCuisine> TblCuisine { get; set; }
         public virtual DbSet<TblLocation> TblLocation { get; set; }
         public virtual DbSet<TblMenu> TblMenu { get; set; }

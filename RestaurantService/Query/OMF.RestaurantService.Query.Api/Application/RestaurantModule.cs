@@ -1,12 +1,11 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using Microsoft.Extensions.Configuration;
 using Nest;
 using OMF.RestaurantService.Query.Repository;
 using OMF.RestaurantService.Query.Repository.Abstractions;
-using OMF.RestaurantService.Query.Repository.DataContext;
 using OMF.RestaurantService.Query.Service;
 using OMF.RestaurantService.Query.Service.Abstractions;
+using System;
 
 namespace OMF.RestaurantService.Query.Application
 {

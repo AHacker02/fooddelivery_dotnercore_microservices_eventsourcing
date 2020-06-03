@@ -14,7 +14,8 @@ namespace OMF.OrderManagementService.Query.Application
                 .ForMember(m => m.OrderItems, opt => opt.MapFrom(d => d.TblFoodOrderItem));
 
             CreateMap<TblFoodOrderItem, FoodOrderItem>()
-                .ForMember(m => m.MenuId, opt => opt.MapFrom(d => d.TblMenuId));
+                .ForMember(m => m.MenuId, opt => opt.MapFrom(d => d.TblMenuId))
+                .ForMember(m => m.Quantity, opt => opt.MapFrom(d => d.Quantity==0?"Item Out ofStock":d.Quantity.ToString()));
             
             CreateMap<TblTableBooking, Booking>()
                 .ForMember(m => m.RestaurantId, opt => opt.MapFrom(d => d.TblRestaurantId))

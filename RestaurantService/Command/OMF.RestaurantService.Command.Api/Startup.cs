@@ -48,7 +48,7 @@ namespace OMF.RestaurantService.Command
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILifetimeScope container)
         {
             base.ConfigureApplication(app, env);
-            var seeder=container.Resolve<Seed>();
+            var seeder = container.Resolve<Seed>();
             seeder.SeedRestaurants();
             var eventBus = container.Resolve<IEventBus>();
             eventBus.SubscribeEvent<OrderConfirmedEvent>();

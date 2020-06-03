@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using OMF.Common.Models;
+﻿using OMF.Common.Models;
 using ServiceBus.Abstractions;
+using System.Collections.Generic;
 
 namespace OMF.Common.Events
 {

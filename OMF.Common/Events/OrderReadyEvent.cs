@@ -1,5 +1,5 @@
-﻿using System;
-using ServiceBus.Abstractions;
+﻿using ServiceBus.Abstractions;
+using System;
 
 namespace OMF.Common.Events
 {

@@ -26,12 +26,21 @@ namespace OMF.ReviewManagementService.Command.Service.CommandHandlers
             _map = map;
         }
 
+
+        /// <summary>
+        /// Handler Review command
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>Response</returns>
         public async Task<Response> Handle(ReviewCommand command, CancellationToken cancellationToken)
         {
 
             var review = _map.Map<TblRating>(command);
             await _reviewRepository.UpsertReview(review);
 
+
+            //raise event to update restaurant review;
             var rating=(await _reviewRepository.GetRestaurantReviews(command.RestaurantId)).Average(x => Convert.ToDecimal(x.Rating));
 
             await _bus.PublishEvent(new UpdateRestaurantEvent(command.RestaurantId, rating.ToString()));

@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Microsoft.IdentityModel.Tokens;
+using OMF.Common.Models;
+using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using OMF.Common.Models;
 
 namespace OMF.Common.Helpers
 {
@@ -45,19 +45,19 @@ namespace OMF.Common.Helpers
             var destProperties = destination.GetType().GetProperties();
 
             foreach (var src in sourceProperties)
-            foreach (var dest in destProperties)
-                try
-                {
-                    if (src.GetValue(source) != null && src.Name == dest.Name &&
-                        src.PropertyType == dest.PropertyType)
+                foreach (var dest in destProperties)
+                    try
                     {
-                        dest.SetValue(destination, src.GetValue(source));
-                        break;
+                        if (src.GetValue(source) != null && src.Name == dest.Name &&
+                            src.PropertyType == dest.PropertyType)
+                        {
+                            dest.SetValue(destination, src.GetValue(source));
+                            break;
+                        }
                     }
-                }
-                catch (Exception ex)
-                {
-                }
+                    catch (Exception ex)
+                    {
+                    }
         }
     }
 }

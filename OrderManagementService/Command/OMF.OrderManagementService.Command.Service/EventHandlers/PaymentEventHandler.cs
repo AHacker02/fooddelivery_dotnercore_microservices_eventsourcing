@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.Extensions.Logging;
 using OMF.Common.Enums;
 using OMF.Common.Events;
 using OMF.Common.Models;
@@ -17,13 +19,15 @@ namespace OMF.OrderManagementService.Command.Service.EventHandlers
     {
         private readonly IEventBus _bus;
         private readonly IMapper _map;
+        private readonly ILogger<PaymentEventHandler> _logger;
         private readonly IOrderRepository _orderRepository;
 
-        public PaymentEventHandler(IOrderRepository orderRepository, IEventBus bus, IMapper map)
+        public PaymentEventHandler(IOrderRepository orderRepository, IEventBus bus, IMapper map,ILogger<PaymentEventHandler> logger)
         {
             _orderRepository = orderRepository;
             _bus = bus;
             _map = map;
+            _logger = logger;
         }
         
         
@@ -44,6 +48,7 @@ namespace OMF.OrderManagementService.Command.Service.EventHandlers
             }
             catch (Exception ex)
             {
+                _logger.LogError("System Exception",ex);
                 await _bus.PublishEvent(new ExceptionEvent("system_exception",
                     $"Message: {ex.Message} Stacktrace: {ex.StackTrace}", @event));
             }
@@ -56,7 +61,10 @@ namespace OMF.OrderManagementService.Command.Service.EventHandlers
             var timer = new Stopwatch();
             timer.Start();
             while (order.Status == OrderStatus.PaymentPending.ToString() && timer.ElapsedMilliseconds <= 300000)
+            {
                 order.Status = (await _orderRepository.GetDetails<TblFoodOrder>(order.Id)).Status;
+                Thread.Sleep(60000);
+            }
             timer.Stop();
 
             if (order.Status == OrderStatus.PaymentSuccessful.ToString())

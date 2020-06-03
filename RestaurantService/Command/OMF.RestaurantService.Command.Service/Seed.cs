@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using OMF.Common.Helpers;
 using OMF.Common.Models;
 using OMF.RestaurantService.Query.Repository.DataContext;
 using OMF.RestaurantService.Repository.Abstractions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 
 namespace OMF.RestaurantService.Command.Service
 {
@@ -20,7 +19,7 @@ namespace OMF.RestaurantService.Command.Service
         private readonly RestaurantManagementContext _database;
         private readonly IConfiguration _configuration;
 
-        public Seed(IRestaurantRepository restaurantRepository,RestaurantManagementContext database,IConfiguration configuration)
+        public Seed(IRestaurantRepository restaurantRepository, RestaurantManagementContext database, IConfiguration configuration)
         {
             _restaurantRepository = restaurantRepository;
             _database = database;
@@ -35,11 +34,11 @@ namespace OMF.RestaurantService.Command.Service
             using (var _client = new HttpClient())
             {
 
-                var user = new User() {Id = 0, Email = "System"};
+                var user = new User() { Id = 0, Email = "System" };
                 _client.DefaultRequestHeaders.Add("Authorization",
                     "Bearer " + user.GenerateJwtToken(_configuration["Token"]));
 
-                var restaurant = _database.TblRestaurant.Where(x => x.Rating == null || x.Budget == null).Include(x=>x.TblOffer);
+                var restaurant = _database.TblRestaurant.Include(x=>x.TblOffer).Where(x => x.Rating == 0 || x.Budget == 0).Include(x => x.TblOffer);
                 foreach (var rest in restaurant)
                 {
 

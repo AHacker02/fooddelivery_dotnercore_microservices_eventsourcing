@@ -2,11 +2,11 @@ using Autofac;
 using BaseService;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using OMF.RestaurantService.Query.Application;
-using Microsoft.EntityFrameworkCore;
 using OMF.RestaurantService.Query.Repository.DataContext;
 
 namespace OMF.RestaurantService.Query

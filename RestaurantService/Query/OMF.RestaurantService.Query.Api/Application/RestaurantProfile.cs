@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using OMF.Common.Models;
 using OMF.RestaurantService.Query.Repository.DataContext;
 
 namespace OMF.RestaurantService.Query.Application
 {
-    public class RestaurantProfile:Profile
+    public class RestaurantProfile : Profile
     {
         public RestaurantProfile()
         {

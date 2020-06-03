@@ -27,8 +27,11 @@ namespace OMF.ReviewManagementService.Command.Repository
         {
             var existingReview = _database.TblRating.FirstOrDefault(x =>
                 x.TblCustomerId == review.TblCustomerId && x.TblRestaurantId == review.TblRestaurantId);
+
             if (existingReview != null) _database.Remove(existingReview);
+
             review.RecordTimeStamp = review.RecordTimeStampCreated = DateTime.Now;
+
             _database.Add(review);
             await _database.SaveChangesAsync();
         }

@@ -43,10 +43,11 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
         /// <returns></returns>
         public async Task<Response> Handle(PaymentCommand command, CancellationToken cancellationToken)
         {
+            TblFoodOrder foodOrder=null;
             //Calculate transaction ammount
             if (command.Domain == Domain.Food.ToString())
             {
-                var foodOrder = (await _orderRepository.Get<TblFoodOrder>(x => x.Id == command.OrderId)).FirstOrDefault();
+                foodOrder = (await _orderRepository.Get<TblFoodOrder>(x => x.Id == command.OrderId)).FirstOrDefault();
                 if (foodOrder == null)
                 {
                     return new Response(400,"Order not found");
@@ -84,9 +85,8 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
             //Raise stock update event id food ordered
             if (command.Domain == "Food")
             {
-                var order = await _orderRepository.GetDetails<TblFoodOrder>(command.OrderId);
-                await _bus.PublishEvent(new OrderConfirmedEvent(order.TblRestaurantId,
-                    _map.Map<IEnumerable<FoodOrderItem>>(order.TblFoodOrderItem)));
+                await _bus.PublishEvent(new OrderConfirmedEvent(foodOrder.TblRestaurantId,
+                    _map.Map<IEnumerable<FoodOrderItem>>(foodOrder.TblFoodOrderItem)));
             }
 
             return new Response(200, $"Transaction was successful. Transaction Id: {transactionId}");

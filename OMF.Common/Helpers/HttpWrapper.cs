@@ -1,10 +1,10 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using OMF.Common.Abstractions;
 using OMF.Common.Models;
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace OMF.Common.Helpers
 {

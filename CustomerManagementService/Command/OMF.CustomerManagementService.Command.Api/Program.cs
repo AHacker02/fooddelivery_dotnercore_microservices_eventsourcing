@@ -58,7 +58,8 @@ public class Program
         {
             return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"]))
             {
-                AutoRegisterTemplate = true,
+                AutoRegisterTemplate = true,				
+                AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,
                 IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
             };
         }

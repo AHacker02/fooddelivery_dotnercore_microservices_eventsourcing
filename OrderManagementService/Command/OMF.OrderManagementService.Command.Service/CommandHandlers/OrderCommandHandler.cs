@@ -73,19 +73,20 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
                     return new Response(400, $"Item: {item.MenuId} not found");
                 }
 
-                if ( item.Quantity <= offer.Quantity)
+                if ( Convert.ToInt32(item.Quantity) <= offer.Quantity)
                 {
                     order.TblFoodOrderItem.Add(new TblFoodOrderItem
                     {
                         TblFoodOrderId = order.Id,
                         TblMenuId = item.MenuId,
-                        Quantity = item.Quantity,
+                        Quantity = Convert.ToInt32(item.Quantity),
                         Price = offer.Price,
                         CreatedDate = DateTime.UtcNow
                     });
                     continue;
                 }
 
+                //Remove order if failed
                 await _orderRepository.Delete(order);
                 response.Code = 400;
                 response.Message = $"Item: {item.MenuId} out of stock";
@@ -108,6 +109,8 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
         /// <returns></returns>
         public async Task<Response> Handle(OrderUpdateCommand request, CancellationToken cancellationToken)
         {
+            
+            //Get order details
             var order = (await _orderRepository.Get<TblFoodOrder>(x=>x.Id==request.OrderId)).FirstOrDefault();
 
             if (order == null)
@@ -120,17 +123,22 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
 
             if (request.OrderItems != null)
             {
+                
+                //Get restaurant and item details
                 order.TblFoodOrderItem =
                     (await _orderRepository.Get<TblFoodOrderItem>(x => x.TblFoodOrderId == request.OrderId)).ToList();
                 var restaurant =
                     (await _http.Get<IEnumerable<Restaurant>>(string.Format(_configuration["RestaurantURL"],
                         order.TblRestaurantId))).FirstOrDefault();
+                
+                
+                //Update order items
                 foreach (var item in request.OrderItems)
                 {
                     var orderedItem = order.TblFoodOrderItem.FirstOrDefault(x => x.TblMenuId == item.MenuId);
                     if (orderedItem != null)
                     {
-                        orderedItem.Quantity = item.Quantity;
+                        orderedItem.Quantity = Convert.ToInt32(item.Quantity);
                         continue;
                     }
                     var offer = restaurant.Offers.FirstOrDefault(x => x.ItemId == item.MenuId);
@@ -142,7 +150,7 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
                     order.TblFoodOrderItem.Add(new TblFoodOrderItem()
                     {
                         TblMenuId = item.MenuId,
-                        Quantity = item.Quantity,
+                        Quantity = Convert.ToInt32(item.Quantity),
                         Price = offer.Price
                     });
 

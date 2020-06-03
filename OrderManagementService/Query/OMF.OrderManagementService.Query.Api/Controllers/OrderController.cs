@@ -20,37 +20,69 @@ namespace OMF.OrderManagementService.Query.Controllers
         {
             _orderService = orderService;
         }
+        
 
-        [HttpGet("foodorder")]
+        /// <summary>
+        /// GET api/order/food
+        /// </summary>
+        /// <returns>All user orders</returns>
+        [HttpGet("food")]
         public async Task<IActionResult> GetUserOrders()
         {
             return Ok(await _orderService.GetUserOrders(int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)));
         }
 
-        [HttpGet("foodorder/{orderId}")]
+        
+        /// <summary>
+        /// GET api/order/food/{Id}
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <returns>Returns single user order</returns>
+        [HttpGet("food/{orderId}")]
         public async Task<IActionResult> GetUserOrders(int orderId)
         {
             return Ok(await _orderService.GetUserOrdersById(int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value),orderId));
         }
         
-        [HttpGet("tablebooking")]
+        
+        /// <summary>
+        /// GET api/order/table 
+        /// </summary>
+        /// <returns>List of user table bookings</returns>
+        [HttpGet("table")]
         public async Task<IActionResult> GetUserBookings()
         {
             return Ok(await _orderService.GetUserBookings(int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)));
         }
 
-        [HttpGet("tablebooking/{bookingId}")]
+        
+        /// <summary>
+        /// GET api/order/{Id}
+        /// </summary>
+        /// <param name="bookingId"></param>
+        /// <returns>Single user booking</returns>
+        [HttpGet("table/{bookingId}")]
         public async Task<IActionResult> GetUserBookings(int bookingId)
         {
             return Ok(await _orderService.GetUserBookingsById(int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value),bookingId));
         }
 
+        
+        /// <summary>
+        /// GET api/order/transactions
+        /// </summary>
+        /// <returns>List of user transations</returns>
         [HttpGet("transactions")]
         public async Task<IActionResult> GetUserTransactions()
         {
             return Ok(await _orderService.GetUserTransactions(int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value)));
         }
         
+        
+        /// <summary>
+        /// GET api/order/cart
+        /// </summary>
+        /// <returns>List of user items in cart</returns>
         [HttpGet("cart")]
         public async Task<IActionResult> GetUserCart()
         {
