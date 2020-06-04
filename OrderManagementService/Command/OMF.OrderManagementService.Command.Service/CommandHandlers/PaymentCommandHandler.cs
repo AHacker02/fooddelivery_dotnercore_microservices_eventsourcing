@@ -47,7 +47,7 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
             //Calculate transaction ammount
             if (command.Domain == Domain.Food.ToString())
             {
-                foodOrder = (await _orderRepository.Get<TblFoodOrder>(x => x.Id == command.OrderId)).FirstOrDefault();
+                foodOrder = (await _orderRepository.Get<TblFoodOrder>(x => x.Id == command.OrderId && x.PaymentId ==0)).FirstOrDefault();
                 if (foodOrder == null)
                 {
                     return new Response(400,"Order not found");
@@ -69,7 +69,7 @@ namespace OMF.OrderManagementService.Command.Service.CommandHandlers
             }
             else if(command.Domain==Domain.Table.ToString())
             {
-                var tableOrder=(await _orderRepository.Get<TblTableBooking>(x => x.Id == command.OrderId)).FirstOrDefault();
+                var tableOrder=(await _orderRepository.Get<TblTableBooking>(x => x.Id == command.OrderId && x.PaymentId ==0)).FirstOrDefault();
                 if (tableOrder == null)
                 {
                     return new Response(400,"Order not found");

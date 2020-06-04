@@ -26,7 +26,7 @@ namespace OMF.OrderManagementService.Query.Repository
                 .Where(x => x.TblCustomerId == userId));
 
         public async Task<IEnumerable<Booking>> GetUserBookings(int userId)
-            => _map.Map<IEnumerable<Booking>>(_database.TblTableBooking.Where(x => x.TblCustomerId == userId));
+            => _map.Map<IEnumerable<Booking>>(_database.TblTableBooking.Include(x=>x.TblTableDetail).Where(x => x.TblCustomerId == userId));
 
         public async Task<IEnumerable<Payment>> GetUserTransactions(int userId)
             => _map.Map<IEnumerable<Payment>>(_database.TblOrderPayment.Where(x => x.TblCustomerId == userId));

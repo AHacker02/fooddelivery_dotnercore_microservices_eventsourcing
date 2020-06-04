@@ -18,10 +18,10 @@ namespace OMF.OrderManagementService.Query.Service
         }
 
         public async Task<IEnumerable<Order>> GetUserOrders(int userId)
-            => await _orderRepository.GetUserOrders(userId);
+            => (await _orderRepository.GetUserOrders(userId)).Where(x => x.PaymentId != 0);
         
         public async Task<IEnumerable<Order>> GetUserOrdersById(int userId,int orderId)
-            => (await _orderRepository.GetUserOrders(userId)).Where(x=>x.Id==orderId);
+            => (await _orderRepository.GetUserOrders(userId)).Where(x=>x.Id==orderId && x.PaymentId != 0);
         
         public async Task<IEnumerable<Booking>> GetUserBookings(int userId)
             => await _orderRepository.GetUserBookings(userId);

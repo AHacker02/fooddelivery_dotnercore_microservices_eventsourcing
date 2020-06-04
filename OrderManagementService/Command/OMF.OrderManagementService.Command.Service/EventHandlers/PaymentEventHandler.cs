@@ -71,8 +71,8 @@ namespace OMF.OrderManagementService.Command.Service.EventHandlers
             {
                 order.Status = OrderStatus.OrderPlaced.ToString();
                 await _orderRepository.UpdateOrder(order);
-                await _bus.PublishEvent(new OrderConfirmedEvent(order.TblRestaurantId,
-                    _map.Map<List<FoodOrderItem>>(order.TblFoodOrderItem)));
+                // await _bus.PublishEvent(new OrderConfirmedEvent(order.TblRestaurantId,
+                //     _map.Map<List<FoodOrderItem>>(order.TblFoodOrderItem)));
             }
             else
             {

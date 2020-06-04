@@ -22,7 +22,7 @@ namespace OMF.OrderManagementService.Query.Application
                 .ForMember(m => m.CustomerId, opt => opt.MapFrom(d => d.TblCustomerId))
                 .ForMember(m => m.TableDetail, opt => opt.MapFrom(d => d.TblTableDetail));
 
-            CreateMap<TableDetail, TblTableDetail>();
+            CreateMap<TableDetail, TblTableDetail>().ReverseMap();
 
             CreateMap<TblOrderPayment, Payment>()
                 .ForMember(m => m.CustomerId, opt => opt.MapFrom(d => d.TblCustomerId));
